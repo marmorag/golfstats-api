@@ -2,7 +2,7 @@ service: app
 
 provider:
     name: aws
-    region: us-east-1
+    region: eu-west-3
     runtime: provided
 
 plugins:
@@ -10,11 +10,16 @@ plugins:
 
 functions:
     api:
-        handler: index.php
+        handler: public/index.php
         description: ''
-        timeout: 28 # in seconds (API Gateway has a timeout of 29 seconds)
+        reservedConcurrency: 1
+        timeout: 20 # in seconds (API Gateway has a timeout of 29 seconds)
         layers:
             - ${bref:layer.php-73-fpm}
         events:
             -   http: 'ANY /'
             -   http: 'ANY /{proxy+}'
+            - schedule:
+                  rate: rate(5 minutes)
+                  input:
+                      warmer: true

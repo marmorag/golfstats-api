@@ -157,6 +157,9 @@
     "mnapoli/silly": {
         "version": "1.7.1"
     },
+    "monolog/monolog": {
+        "version": "1.25.1"
+    },
     "mtdowling/jmespath.php": {
         "version": "2.4.0"
     },
@@ -349,6 +352,23 @@
     "symfony/mime": {
         "version": "v4.3.5"
     },
+    "symfony/monolog-bridge": {
+        "version": "v4.3.5"
+    },
+    "symfony/monolog-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "6240c6d43e8237a32452f057f81816820fd56ab6"
+        },
+        "files": [
+            "config/packages/dev/monolog.yaml",
+            "config/packages/prod/monolog.yaml",
+            "config/packages/test/monolog.yaml"
+        ]
+    },
     "symfony/orm-pack": {
         "version": "v1.0.7"
     },
@@ -462,6 +482,15 @@
     },
     "symfony/web-link": {
         "version": "v4.3.5"
+    },
+    "symfony/web-server-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "dae9b39fd6717970be7601101ce5aa960bf53d9a"
+        }
     },
     "symfony/yaml": {
         "version": "v4.3.5"
