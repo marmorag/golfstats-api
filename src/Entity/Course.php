@@ -2,13 +2,26 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CourseRepository")
+ * @ApiResource(
+ *     collectionOperations={
+ *          "get"={"access_control"="is_granted('IS_FULLY_AUTHENTICATED')"},
+ *          "post"={"access_control"="is_granted('ROLE_ADMIN')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"access_control"="is_granted('IS_FULLY_AUTHENTICATED')"},
+ *     },
+ *     normalizationContext={"groups"={"course", "read"}},
+ *     denormalizationContext={"groups"={"course", "write"}}
+ * )
  */
 class Course
 {
@@ -24,12 +37,14 @@ class Course
     /**
      * @var string
      * @ORM\Column(type="string")
+     * @Groups("course")
      */
     private $name;
 
     /**
      * @var \App\Entity\Landmark[]|Collection
-     * @ORM\OneToMany(targetEntity="App\Entity\Landmark")
+     * @ORM\OneToMany(targetEntity="App\Entity\Landmark", mappedBy="id")
+     * @Groups("course")
      */
     private $landmarks;
 

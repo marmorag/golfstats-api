@@ -4,10 +4,23 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ContactRepository")
+ * @ApiResource(
+ *     collectionOperations={
+ *          "get"={"access_control"="is_granted('IS_FULLY_AUTHENTICATED')"},
+ *          "post"={"access_control"="is_granted('ROLE_ADMIN')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"access_control"="is_granted('IS_FULLY_AUTHENTICATED')"},
+ *     },
+ *     normalizationContext={"groups"={"contact", "read"}},
+ *     denormalizationContext={"groups"={"contact", "write"}}
+ * )
  */
 class Contact
 {
@@ -23,28 +36,51 @@ class Contact
     /**
      * @var string
      * @ORM\Column(type="string")
+     * @Groups("contact")
      */
     private $name;
     /**
      * @var string
      * @ORM\Column(type="string")
+     * @Groups("contact")
      */
     private $address;
     /**
      * @var string
      * @ORM\Column(type="string")
+     * @Groups("contact")
      */
     private $city;
     /**
      * @var string
      * @ORM\Column(type="string")
+     * @Groups("contact")
      */
     private $postalCode;
     /**
      * @var string
      * @ORM\Column(type="string")
+     * @Groups("contact")
      */
     private $telephoneNumber;
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     * @return Contact
+     */
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
 
     /**
      * @return mixed
@@ -58,7 +94,7 @@ class Contact
      * @param mixed $name
      * @return Contact
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
         return $this;
@@ -76,7 +112,7 @@ class Contact
      * @param string $address
      * @return Contact
      */
-    public function setAddress(string $address): Contact
+    public function setAddress(string $address): self
     {
         $this->address = $address;
         return $this;
@@ -94,7 +130,7 @@ class Contact
      * @param string $city
      * @return Contact
      */
-    public function setCity(string $city): Contact
+    public function setCity(string $city): self
     {
         $this->city = $city;
         return $this;
@@ -112,7 +148,7 @@ class Contact
      * @param string $postalCode
      * @return Contact
      */
-    public function setPostalCode(string $postalCode): Contact
+    public function setPostalCode(string $postalCode): self
     {
         $this->postalCode = $postalCode;
         return $this;
@@ -130,7 +166,7 @@ class Contact
      * @param string $telephoneNumber
      * @return Contact
      */
-    public function setTelephoneNumber(string $telephoneNumber): Contact
+    public function setTelephoneNumber(string $telephoneNumber): self
     {
         $this->telephoneNumber = $telephoneNumber;
         return $this;

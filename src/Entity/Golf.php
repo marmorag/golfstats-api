@@ -2,16 +2,25 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * Class Golf
- * @package App\Document
- *
  * @ORM\Entity(repositoryClass="App\Repository\GolfRepository")
+ * @ApiResource(
+ *     collectionOperations={
+ *          "get"={"access_control"="is_granted('IS_FULLY_AUTHENTICATED')"},
+ *          "post"={"access_control"="is_granted('ROLE_ADMIN')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"access_control"="is_granted('IS_FULLY_AUTHENTICATED')"},
+ *     },
+ *     normalizationContext={"groups"={"golf", "minimal", "read"}},
+ *     denormalizationContext={"groups"={"golf", "write"}}
+ * )
  */
 class Golf
 {
@@ -30,25 +39,26 @@ class Golf
      * @var string
      * @ORM\Column(type="string")
      *
-     * @Groups("minimal")
+     * @Groups({"minimal", "golf"})
      */
     private $name;
 
     /**
-     * @var Collection
-     * @ORM\OneToMany(targetEntity="App\Entity\Course")
+     * @var Collection|Course[]
+     * @ORM\OneToMany(targetEntity="App\Entity\Course", mappedBy="id")
+     * @Groups("golf")
      */
     private $courses;
 
     /**
      * @var \App\Entity\Contact
      * @ORM\OneToOne(targetEntity="App\Entity\Contact")
+     * @Groups("golf")
      */
     private $contact;
 
     public function __construct()
     {
-        $this->name = '';
         $this->courses = new ArrayCollection();
     }
 

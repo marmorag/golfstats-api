@@ -2,13 +2,26 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\LandmarkRepository")
+ * @ApiResource(
+ *     collectionOperations={
+ *          "get"={"access_control"="is_granted('IS_FULLY_AUTHENTICATED')"},
+ *          "post"={"access_control"="is_granted('ROLE_ADMIN')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"access_control"="is_granted('IS_FULLY_AUTHENTICATED')"},
+ *     },
+ *     normalizationContext={"groups"={"landmark", "read"}},
+ *     denormalizationContext={"groups"={"landmark", "write"}}
+ * )
  */
 class Landmark
 {
@@ -18,42 +31,49 @@ class Landmark
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups("scorecard")
      */
     private $id;
 
     /**
      * @var string
      * @ORM\Column(type="string")
+     * @Groups({"course", "landmark", "scorecard"})
      */
     private $name;
 
     /**
      * @var \App\Entity\Hole[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="App\Entity\Hole")
+     * @ORM\OneToMany(targetEntity="App\Entity\Hole", mappedBy="id")
+     * @Groups({"course", "landmark"})
      */
     private $holes;
 
     /**
      * @var float
      * @ORM\Column(type="float")
+     * @Groups({"course", "landmark"})
      */
     private $sssMen;
 
     /**
      * @var float
      * @ORM\Column(type="float")
+     * @Groups({"course", "landmark"})
      */
     private $sssLady;
 
     /**
      * @var float
      * @ORM\Column(type="float")
+     * @Groups({"course", "landmark"})
      */
     private $slopeMen;
 
     /**
      * @var float
      * @ORM\Column(type="float")
+     * @Groups({"course", "landmark"})
      */
     private $slopeLady;
 

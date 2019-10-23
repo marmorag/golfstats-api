@@ -2,10 +2,23 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\HoleRepository")
+ * @ApiResource(
+ *     collectionOperations={
+ *          "get"={"access_control"="is_granted('IS_FULLY_AUTHENTICATED')"},
+ *          "post"={"access_control"="is_granted('ROLE_ADMIN')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"access_control"="is_granted('IS_FULLY_AUTHENTICATED')"},
+ *     },
+ *     normalizationContext={"groups"={"hole", "read"}},
+ *     denormalizationContext={"groups"={"hole", "write"}}
+ * )
  */
 class Hole
 {
@@ -21,21 +34,25 @@ class Hole
     /**
      * @var integer
      * @ORM\Column(type="integer")
+     * @Groups({"course", "landmark", "hole"})
      */
     private $number;
     /**
      * @var integer
      * @ORM\Column(type="integer")
+     * @Groups({"course", "landmark", "hole"})
      */
     private $par;
     /**
      * @var integer
      * @ORM\Column(type="integer")
+     * @Groups({"course", "landmark", "hole"})
      */
     private $handicap;
     /**
      * @var integer
      * @ORM\Column(type="integer")
+     * @Groups({"course", "landmark", "hole"})
      */
     private $length;
 

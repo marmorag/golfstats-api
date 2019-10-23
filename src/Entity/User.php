@@ -2,13 +2,26 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- *
+ * @ApiResource(
+ *     collectionOperations={
+ *          "get"={"access_control"="is_granted('IS_FULLY_AUTHENTICATED')"},
+ *          "post"={"access_control"="is_granted('ROLE_ADMIN')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"access_control"="is_granted('IS_FULLY_AUTHENTICATED')"},
+ *          "put"={"access_control"="is_granted('ROLE_ADMIN')"},
+ *          "delete"={"access_control"="is_granted('ROLE_ADMIN')"},
+ *     },
+ *     normalizationContext={"groups"={"scorecard", "read"}},
+ *     denormalizationContext={"groups"={"scorecard", "write"}}
+ * )
  * @UniqueEntity("email")
  * @UniqueEntity("apiToken")
  */

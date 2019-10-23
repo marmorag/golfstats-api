@@ -2,10 +2,23 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ScoreRepository")
+ * @ApiResource(
+ *     collectionOperations={
+ *          "get"={"access_control"="is_granted('IS_FULLY_AUTHENTICATED')"},
+ *          "post"={"access_control"="is_granted('ROLE_ADMIN')"}
+ *     },
+ *     itemOperations={
+ *          "get"={"access_control"="is_granted('IS_FULLY_AUTHENTICATED')"},
+ *     },
+ *     normalizationContext={"groups"={"score", "read"}},
+ *     denormalizationContext={"groups"={"score", "write"}}
+ * )
  */
 class Score
 {
@@ -21,12 +34,14 @@ class Score
     /**
      * @var Hole
      * @ORM\OneToOne(targetEntity="App\Entity\Hole")
+     * @Groups({"score", "scorecard"})
      */
     private $hole;
 
     /**
      * @var integer
      * @ORM\Column(type="integer")
+     * @Groups({"score", "scorecard"})
      */
     private $score;
 
