@@ -3,7 +3,8 @@
 namespace App\Security;
 
 use App\Repository\UserRepository;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use App\Entity\User;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -17,7 +18,7 @@ class UserProvider implements UserProviderInterface
      */
     private $repository;
 
-    public function __construct(DocumentManager $manager)
+    public function __construct(EntityManagerInterface $manager)
     {
         $this->repository = $manager->getRepository(User::class);
     }

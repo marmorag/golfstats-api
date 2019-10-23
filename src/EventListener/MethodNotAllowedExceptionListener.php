@@ -4,12 +4,12 @@ namespace App\EventListener;
 
 
 use App\Controller\AbstractApiController;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class MethodNotAllowedExceptionListener extends AbstractApiController
 {
-    public function onKernelException(GetResponseForExceptionEvent $event): void
+    public function onKernelException(ExceptionEvent $event): void
     {
         // You get the exception object from the received event
         $exception = $event->getException();

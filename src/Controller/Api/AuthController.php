@@ -5,14 +5,12 @@ namespace App\Controller\Api;
 use App\Controller\AbstractApiController;
 use App\Entity\User;
 use App\Repository\UserRepository;
-
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-
-use Doctrine\ODM\MongoDB\DocumentManager;
 
 /**
  * Class AuthController
@@ -29,13 +27,12 @@ class AuthController extends AbstractApiController
      * @var UserRepository
      */
     private $repository;
-
     /**
      * @var UserPasswordEncoder
      */
     private $encoder;
 
-    public function __construct(DocumentManager$manager, UserPasswordEncoderInterface $encoder)
+    public function __construct(EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
     {
         $this->repository = $manager->getRepository(User::class);
         $this->encoder = $encoder;

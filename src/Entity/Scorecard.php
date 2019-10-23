@@ -4,6 +4,8 @@ namespace App\Entity;
 
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -28,45 +30,35 @@ class Scorecard
 
     /**
      * @var Course
-     * @ReferenceOne(
-     *     targetDocument="Course",
-     *     storeAs="id"
-     * )
+     * @ORM\ManyToOne(targetEntity="App\Entity\Course")
      */
     private $course;
+
     /**
      * @var Score[]
-     * @EmbedMany(
-     *     targetDocument="Score"
+     * @ORM\ManyToMany(targetEntity="App\Entity\Score")
+     * @ORM\JoinTable(
+     *     name="scorecards_scores",
+     *     joinColumns={@ORM\JoinColumn(name="scorecard_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="score_id", referencedColumnName="id")}
      * )
      */
     private $scores;
     /**
      * @var DateTime
-     * @Field(type="date")
+     * @ORM\Column(type="date")
      */
     private $date;
     /**
      * @var float
-     * @Field(type="float")
+     * @ORM\Column(type="float")
      */
     private $playerIndex;
 
     public function __construct()
     {
-        $this->course = '';
-        $this->scores = array();
+        $this->scores = new ArrayCollection();
         $this->playerIndex = 54.0;
-    }
-
-    /**
-     * @PrePersist
-     */
-    public function prePersist()
-    {
-        if (!isset($this->date)) {
-            $this->date = (new DateTime('now', new DateTimeZone($_ENV['DATETIME_TIMEZ'])))->format($_ENV['DATETIME_FORMAT']);
-        }
     }
 
     /**
@@ -81,7 +73,7 @@ class Scorecard
      * @param Player $player
      * @return Scorecard
      */
-    public function setPlayer(Player $player): Scorecard
+    public function setPlayer(Player $player): self
     {
         $this->player = $player;
         return $this;
@@ -99,14 +91,14 @@ class Scorecard
      * @param Course $course
      * @return Scorecard
      */
-    public function setCourse(Course $course): Scorecard
+    public function setCourse(Course $course): self
     {
         $this->course = $course;
         return $this;
     }
 
     /**
-     * @return Score[]
+     * @return Score[]|Collection
      */
     public function getScores(): array
     {
@@ -117,7 +109,7 @@ class Scorecard
      * @param Score[] $scores
      * @return Scorecard
      */
-    public function setScores(array $scores): Scorecard
+    public function setScores(array $scores): self
     {
         $this->scores = $scores;
         return $this;
@@ -135,7 +127,7 @@ class Scorecard
      * @param DateTime $date
      * @return Scorecard
      */
-    public function setDate(DateTime $date): Scorecard
+    public function setDate(DateTime $date): self
     {
         $this->date = $date;
         return $this;
@@ -153,7 +145,7 @@ class Scorecard
      * @param float $playerIndex
      * @return Scorecard
      */
-    public function setPlayerIndex(float $playerIndex): Scorecard
+    public function setPlayerIndex(float $playerIndex): self
     {
         $this->playerIndex = $playerIndex;
         return $this;
@@ -171,7 +163,7 @@ class Scorecard
      * @param string $id
      * @return Scorecard
      */
-    public function setId(string $id): Scorecard
+    public function setId(string $id): self
     {
         $this->id = $id;
         return $this;

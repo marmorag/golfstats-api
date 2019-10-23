@@ -5,7 +5,8 @@ namespace App\Security;
 
 use App\Controller\AbstractApiController;
 use App\Entity\User;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,11 +19,11 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
 
-    private $dm;
+    private $em;
 
-    public function __construct(DocumentManager $documentManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->dm = $documentManager;
+        $this->em = $entityManager;
     }
 
     /**
@@ -40,7 +41,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     /**
      * {@inheritdoc}
      */
-    public function supports(Request $request)
+    public function supports(Request $request): bool
     {
         return $request->headers->has('X-AUTH-TOKEN');
     }
@@ -71,7 +72,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
             return null;
         }
 
-        return $this->dm->getRepository(User::class)->findOneBy(['apiToken' => $apiToken]);
+        return $this->em->getRepository(User::class)->findOneBy(['apiToken' => $apiToken]);
     }
 
     /**

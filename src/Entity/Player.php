@@ -12,7 +12,7 @@ class Player extends User
 {
     /**
      * @var float
-     * @Field(type="float")
+     * @ORM\Column(type="float")
      */
     private $index;
 

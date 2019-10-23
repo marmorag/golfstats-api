@@ -19,7 +19,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 class CourseRepository extends ServiceEntityRepository
 {
 
-    public function __construct(ManagerRegistry $registry, string $entityClass)
+    public function __construct(ManagerRegistry $registry, string $entityClass = Course::class)
     {
         parent::__construct($registry, $entityClass);
     }

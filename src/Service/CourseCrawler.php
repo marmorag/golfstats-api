@@ -1,31 +1,27 @@
 <?php
 namespace App\Service;
 
-use App\Entity\Landmark;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\Panther\Client;
-use Symfony\Component\Panther\DomCrawler\Crawler;
-use Facebook\WebDriver\Exception\NoSuchElementException;
-use Facebook\WebDriver\Exception\TimeOutException;
-
 use App\Entity\Course;
 use App\Entity\Hole;
+use App\Entity\Landmark;
+use Facebook\WebDriver\Exception\NoSuchElementException;
+use Facebook\WebDriver\Exception\TimeOutException;
 use InvalidArgumentException;
-use Symfony\Component\Panther\DomCrawler\Field\ChoiceFormField;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
+use Symfony\Component\Panther\Client;
+use Symfony\Component\Panther\DomCrawler\Crawler;
 
-class CourseCrawler
+class CourseCrawler implements LoggerAwareInterface
 {
 
-    private $client;
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    use LoggerAwareTrait;
 
-    public function __construct(LoggerInterface $logger)
+    private $client;
+
+    public function __construct()
     {
         $this->client = Client::createChromeClient(__DIR__.'/../../vendor/symfony/panther/chromedriver-bin/chromedriver_linux64');
-        $this->logger = $logger;
     }
 
     /**

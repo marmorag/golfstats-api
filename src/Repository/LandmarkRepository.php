@@ -18,7 +18,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class LandmarkRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry, string $entityClass)
+    public function __construct(ManagerRegistry $registry, string $entityClass = Landmark::class)
     {
         parent::__construct($registry, $entityClass);
     }

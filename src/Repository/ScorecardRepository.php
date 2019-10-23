@@ -19,7 +19,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class ScorecardRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry, string $entityClass)
+    public function __construct(ManagerRegistry $registry, string $entityClass = Scorecard::class)
     {
         parent::__construct($registry, $entityClass);
     }

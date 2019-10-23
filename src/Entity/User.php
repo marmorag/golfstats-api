@@ -2,12 +2,7 @@
 
 namespace App\Entity;
 
-use App\Exception\InvalidUserException;
-use App\Service\ApiTokenGenerator;
-use DateTime;
-use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
