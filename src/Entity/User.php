@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ApiResource(
  *     collectionOperations={
- *          "get"={"access_control"="is_granted('IS_FULLY_AUTHENTICATED')"},
+ *          "get",
  *          "post"={"access_control"="is_granted('ROLE_ADMIN')"}
  *     },
  *     itemOperations={

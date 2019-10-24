@@ -15,7 +15,7 @@ functions:
         reservedConcurrency: 1
         timeout: 20 # in seconds (API Gateway has a timeout of 29 seconds)
         layers:
-            - ${bref:layer.php-73-fpm}
+            - php-73-fpm
         events:
             -   http: 'ANY /'
             -   http: 'ANY /{proxy+}'
