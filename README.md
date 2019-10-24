@@ -1,6 +1,6 @@
 # api
 
-[![Build Status](https://travis-ci.com/marmorag/battleship-game-engine.svg?branch=master)](https://travis-ci.com/marmorag/battleship-game-engine)
+[![Build Status](https://travis-ci.com/GolsStats/api.svg?branch=master)](https://travis-ci.com/GolfStats/api)
 
 ---
 
