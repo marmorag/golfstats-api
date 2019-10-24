@@ -61,7 +61,7 @@ before_script:
 script:
   - composer validate
   - bin/console lint:yaml config --parse-tags
-  - bin/php-cs-fixer.phar fix --verbose --diff --dry-run src/
+  - bin/php-cs-fixer-v2.phar fix --verbose --diff --dry-run src/
 
   - APP_ENV=test bin/console doctrine:schema:validate
   - bin/console api:swagger:export > /dev/null # trick to check if ApiPlatform is not correctly configured
