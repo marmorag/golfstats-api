@@ -43,7 +43,16 @@ class Course
 
     /**
      * @var \App\Entity\Landmark[]|Collection
-     * @ORM\OneToMany(targetEntity="App\Entity\Landmark", mappedBy="id")
+     *
+     * One To Many - Unidirectionnal
+     * https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/association-mapping.html#one-to-many-unidirectional-with-join-table
+     *
+     * @ORM\ManyToMany(targetEntity="App\Entity\Landmark")
+     * @ORM\JoinTable(
+     *     name="courses_landmarks",
+     *     joinColumns={@ORM\JoinColumn(name="course_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="landmark_id", referencedColumnName="id", unique=true)}
+     * )
      * @Groups("course")
      */
     private $landmarks;

@@ -45,7 +45,15 @@ class Golf
 
     /**
      * @var Collection|Course[]
-     * @ORM\OneToMany(targetEntity="App\Entity\Course", mappedBy="id")
+     *
+     * One To Many - Unidirectionnal
+     *
+     * @ORM\ManyToMany(targetEntity="App\Entity\Course")
+     * @ORM\JoinTable(
+     *     name="golfs_courses",
+     *     joinColumns={@ORM\JoinColumn(name="golf_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="course_id", referencedColumnName="id", unique=true)}
+     * )
      * @Groups("golf")
      */
     private $courses;

@@ -1,4 +1,7 @@
 security:
+    encoders:
+        App\Entity\User:
+            algorithm: 'auto'
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory: { memory: null }
@@ -6,8 +9,29 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        api_auth:
+            pattern: ^/api/authenticate
+            stateless: true
+            anonymous: true
+
+        api_register:
+            pattern: ^/api/register
+            stateless: true
+            anonymous: true
+
+        api:
+            pattern: ^/api
+            stateless: true
+            anonymous: false
+            guard:
+                authenticator:
+                    - App\Security\TokenAuthenticator
+            provider: app_user_provider
+
         main:
             anonymous: true
+            logout: ~
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -18,5 +42,6 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api/auth, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api, roles: ROLE_USER }

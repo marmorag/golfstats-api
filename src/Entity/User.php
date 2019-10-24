@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
+ * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ApiResource(
  *     collectionOperations={
@@ -65,6 +66,11 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     protected $password;
+
+    /**
+     * @var string
+     */
+    private $plainPassword;
 
     /**
      * @var array
@@ -163,6 +169,24 @@ class User implements UserInterface
     }
 
     /**
+     * @return string
+     */
+    public function getPlainPassword(): string
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param string $plainPassword
+     * @return User
+     */
+    public function setPlainPassword(string $plainPassword): User
+    {
+        $this->plainPassword = $plainPassword;
+        return $this;
+    }
+
+    /**
      * @return mixed
      */
     public function getApiToken()
@@ -220,5 +244,6 @@ class User implements UserInterface
      */
     public function eraseCredentials(): void
     {
+        $this->plainPassword = null;
     }
 }

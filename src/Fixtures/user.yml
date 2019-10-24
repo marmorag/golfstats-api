@@ -1,7 +1,0 @@
-App\Entity\User:
-  user_1:
-    firstname: 'guillaume'
-    lastname: 'marmorat'
-    email: 'guillaume.marmorat@gmail.com'
-    password: <encodePassword(@user_1, 'test')>
-    roles: [<(App\Enum\Role::ROLE_ADMIN)>]

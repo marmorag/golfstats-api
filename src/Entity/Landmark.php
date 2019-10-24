@@ -44,7 +44,16 @@ class Landmark
 
     /**
      * @var \App\Entity\Hole[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="App\Entity\Hole", mappedBy="id")
+     *
+     * One To Many - Unidirectionnal
+     *
+     * @ORM\ManyToMany(targetEntity="App\Entity\Hole")
+     * @ORM\JoinTable(
+     *     name="landmarks_holes",
+     *     joinColumns={@ORM\JoinColumn(name="landmark_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="hole_id", referencedColumnName="id", unique=true)}
+     * )
+     *
      * @Groups({"course", "landmark"})
      */
     private $holes;
