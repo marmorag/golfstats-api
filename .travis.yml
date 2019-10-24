@@ -65,6 +65,6 @@ script:
 
   - APP_ENV=test bin/console doctrine:schema:validate
   - bin/console api:swagger:export > /dev/null # trick to check if ApiPlatform is not correctly configured
-  - php bin/phpstan.phar analyse --level max src/
+  - vendor/bin/phpstan analyse --level max src/
 
-  - bin/behat --format progress
+  - vendor/bin/behat --format progress
