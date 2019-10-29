@@ -2,7 +2,6 @@
 
 namespace App\Controller\Api;
 
-
 use App\Controller\AbstractApiController;
 use App\Service\CourseCrawler;
 use Psr\Log\LoggerAwareInterface;
@@ -14,7 +13,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class CourseController extends AbstractApiController implements LoggerAwareInterface
 {
-
     use LoggerAwareTrait;
 
     /**

@@ -14,7 +14,6 @@ use Symfony\Component\Panther\DomCrawler\Crawler;
 
 class CourseCrawler implements LoggerAwareInterface
 {
-
     use LoggerAwareTrait;
 
     private $client;
@@ -76,7 +75,7 @@ class CourseCrawler implements LoggerAwareInterface
         $tees = array();
 
         // Extract all tee box available
-        foreach ($crawler->filter('#landmarkList')->children() as $tee){
+        foreach ($crawler->filter('#landmarkList')->children() as $tee) {
             $tees[$tee->getText()] = $tee->getAttribute('value');
         }
 

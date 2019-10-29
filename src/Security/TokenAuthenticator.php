@@ -2,7 +2,6 @@
 
 namespace App\Security;
 
-
 use App\Controller\AbstractApiController;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,7 +16,6 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
-
     private $em;
 
     public function __construct(EntityManagerInterface $entityManager)

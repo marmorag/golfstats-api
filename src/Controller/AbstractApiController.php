@@ -2,14 +2,12 @@
 
 namespace App\Controller;
 
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 abstract class AbstractApiController extends AbstractController
 {
-
     public const STATUS_200 = 'The request was successfully completed.';
     public const STATUS_201 = 'A new resource was successfully created.';
     public const STATUS_204 = 'No data to sent back.';
@@ -29,7 +27,7 @@ abstract class AbstractApiController extends AbstractController
         $response->headers->set('Access-Control-Allow-Origin', '*');
         $response->setStatusCode($statusCode);
 
-        if (isset($transferData)){
+        if (isset($transferData)) {
             $response->setContent(json_encode($transferData));
         }
 

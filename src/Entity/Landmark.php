@@ -130,7 +130,7 @@ class Landmark
      */
     public function setHoles($holes): self
     {
-        if ($holes instanceof ArrayCollection){
+        if ($holes instanceof ArrayCollection) {
             $this->holes = $holes;
         } else {
             $this->holes = new ArrayCollection($holes);
@@ -227,5 +227,4 @@ class Landmark
         $this->id = $id;
         return $this;
     }
-
 }

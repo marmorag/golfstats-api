@@ -2,5 +2,6 @@
 
 namespace App\Exception;
 
-
-class DeserializationException extends \Exception{}
+class DeserializationException extends \Exception
+{
+}

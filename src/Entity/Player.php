@@ -72,6 +72,4 @@ class Player extends User
         $this->scorecards = $scorecards;
         return $this;
     }
-
-
 }

@@ -2,10 +2,8 @@
 
 namespace App\Service;
 
-
 class ApiTokenGenerator
 {
-
     private $prefix;
 
     public function __construct()

@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-
 use App\Serializer\GolfNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
@@ -11,7 +10,6 @@ use Symfony\Component\Serializer\Serializer;
 
 class ObjectSerializerGetter
 {
-
     private static $serializer;
 
     /**
@@ -32,5 +30,4 @@ class ObjectSerializerGetter
         }
         return  self::$serializer;
     }
-
 }

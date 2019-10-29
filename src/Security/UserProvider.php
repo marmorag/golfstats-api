@@ -30,7 +30,7 @@ class UserProvider implements UserProviderInterface
     {
         $user = $this->repository->findOneBy(['mail' => $username]);
 
-        if (!isset($user) || !$user instanceof User){
+        if (!isset($user) || !$user instanceof User) {
             throw new UsernameNotFoundException('The given login was not found');
         }
 

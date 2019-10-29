@@ -76,10 +76,9 @@ class Golf
      */
     public function setCourses($courses): self
     {
-        if ($courses instanceof ArrayCollection){
+        if ($courses instanceof ArrayCollection) {
             $this->courses = $courses;
-        }
-        else {
+        } else {
             $this->courses = new ArrayCollection($courses);
         }
 

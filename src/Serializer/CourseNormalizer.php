@@ -2,7 +2,6 @@
 
 namespace App\Serializer;
 
-
 use App\Entity\Course;
 use App\Entity\Hole;
 use App\Entity\Landmark;
@@ -33,7 +32,7 @@ class CourseNormalizer implements DenormalizerInterface
 
         $course->setName($data['name'] ?? '');
 
-        if (isset($data['landmarks'])){
+        if (isset($data['landmarks'])) {
             foreach ($data['landmarks'] as $landmark) {
                 $normalizedLandmark = $this->denormalizeLandmark($landmark);
                 $course->addLandmark($normalizedLandmark);
@@ -63,9 +62,9 @@ class CourseNormalizer implements DenormalizerInterface
         $landmark->setSlopeLady($data['slopeLady'] ?? 0.0);
         $landmark->setSlopeMen($data['slopeMen'] ?? 0.0);
 
-        if (isset($data['holes'])){
+        if (isset($data['holes'])) {
             $holes = [];
-            foreach ($data['holes'] as $hole){
+            foreach ($data['holes'] as $hole) {
                 $holes[] = $this->denormalizeHole($hole);
             }
 

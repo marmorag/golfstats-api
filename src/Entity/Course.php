@@ -94,7 +94,7 @@ class Course
      */
     public function setLandmarks($landmarks): self
     {
-        if ($landmarks instanceof ArrayCollection){
+        if ($landmarks instanceof ArrayCollection) {
             $this->landmarks = $landmarks;
         } else {
             $this->landmarks = new ArrayCollection($landmarks);

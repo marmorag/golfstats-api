@@ -219,5 +219,7 @@ class User implements UserInterface
     /**
      * {@inheritdoc}
      */
-    public function eraseCredentials(): void {}
+    public function eraseCredentials(): void
+    {
+    }
 }
