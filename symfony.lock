@@ -34,6 +34,9 @@
     "behat/transliterator": {
         "version": "v1.2.0"
     },
+    "behatch/contexts": {
+        "version": "3.2.0"
+    },
     "bref/bref": {
         "version": "0.5.9"
     },
@@ -143,6 +146,21 @@
     "fig/link-util": {
         "version": "1.0.0"
     },
+    "friends-of-behat/symfony-extension": {
+        "version": "2.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.0",
+            "ref": "3d21344765fd3440a85bdd27d4cada186ec628bd"
+        },
+        "files": [
+            "behat.yml.dist",
+            "config/services_test.yaml",
+            "features/demo.feature",
+            "tests/Behat/DemoContext.php"
+        ]
+    },
     "fzaninotto/faker": {
         "version": "v1.8.0"
     },
@@ -177,6 +195,9 @@
     },
     "jean85/pretty-package-versions": {
         "version": "1.2"
+    },
+    "justinrainbow/json-schema": {
+        "version": "5.x-dev"
     },
     "mnapoli/silly": {
         "version": "1.7.1"
@@ -467,6 +488,9 @@
     },
     "symfony/property-info": {
         "version": "v4.3.5"
+    },
+    "symfony/proxy-manager-bridge": {
+        "version": "4.4.x-dev"
     },
     "symfony/routing": {
         "version": "4.2",

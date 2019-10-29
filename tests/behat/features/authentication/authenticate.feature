@@ -3,9 +3,10 @@ Feature: API Authentication
   I must be able to authenticate on the API
 
   Scenario: I can't access a ressource when I'm not authenticated
-    When I request "GET /api/users"
+    When I send a "GET" request at "/api/users"
     Then The response code should be: 401
     And The response body should be "hydra:description" "Full authentication is required to access this resource."
+    And I should not be authenticated
 
   Scenario: I can login on API and get access token
     Given I have the following credentials:
@@ -15,12 +16,12 @@ Feature: API Authentication
         "password" : "password"
       }
       """
-    When I request "POST /api/authenticate"
-    Then The response code should be: 401
+    When I send a "POST" request at "/api/authenticate"
+    Then The response code should be: 200
     And I should be authenticated
 
   Scenario: I can logout from the application
-    When I request "GET /logout"
+    When I send a "GET" request at "/logout"
     Then I should not be authenticated
 
   Scenario Outline: I can't login if my credentials are invalid
