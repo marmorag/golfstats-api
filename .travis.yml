@@ -7,8 +7,8 @@ php:
 env:
   global:
     - TZ=Europe/Paris
-    - DATABASE_URL=pgsql://postgres@127.0.0.1:5433/cosmos_test
-    - DATABASE_SERVER_VERSION=10
+    - DATABASE_URL=pgsql://postgres@127.0.0.1:5432/golfstats
+    - DATABASE_SERVER_VERSION=11
 
 cache:
   directories:
