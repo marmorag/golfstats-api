@@ -37,7 +37,7 @@ abstract class AbstractApiController extends AbstractController
     /**
      * Standard success return code
      *
-     * @param $data
+     * @param mixed $data
      * @return Response
      */
     public function successResponse($data = null): Response

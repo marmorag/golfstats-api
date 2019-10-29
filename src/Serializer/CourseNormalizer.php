@@ -5,6 +5,7 @@ namespace App\Serializer;
 use App\Entity\Course;
 use App\Entity\Hole;
 use App\Entity\Landmark;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 class CourseNormalizer implements DenormalizerInterface
@@ -45,7 +46,7 @@ class CourseNormalizer implements DenormalizerInterface
     // TODO use normalizer for each landmark and hole object
 
     /**
-     * @param $data
+     * @param mixed $data
      * @return Landmark
      */
     private function denormalizeLandmark($data): Landmark
@@ -63,9 +64,9 @@ class CourseNormalizer implements DenormalizerInterface
         $landmark->setSlopeMen($data['slopeMen'] ?? 0.0);
 
         if (isset($data['holes'])) {
-            $holes = [];
+            $holes = new ArrayCollection();
             foreach ($data['holes'] as $hole) {
-                $holes[] = $this->denormalizeHole($hole);
+                $holes->add($this->denormalizeHole($hole));
             }
 
             $landmark->setHoles($holes);
@@ -75,7 +76,7 @@ class CourseNormalizer implements DenormalizerInterface
     }
 
     /**
-     * @param $data
+     * @param mixed $data
      * @return Hole
      */
     private function denormalizeHole($data): Hole

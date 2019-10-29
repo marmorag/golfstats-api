@@ -4,6 +4,7 @@ namespace App\Service;
 use App\Entity\Course;
 use App\Entity\Hole;
 use App\Entity\Landmark;
+use Doctrine\Common\Collections\ArrayCollection;
 use Facebook\WebDriver\Exception\NoSuchElementException;
 use Facebook\WebDriver\Exception\TimeOutException;
 use InvalidArgumentException;
@@ -24,12 +25,12 @@ class CourseCrawler implements LoggerAwareInterface
     }
 
     /**
-     * @param $url
+     * @param string $url
      * @return Course
      *
      * @throws TimeOutException|InvalidArgumentException
      */
-    public function process($url): Course
+    public function process(string $url): Course
     {
         $crawler = $this->client->request('GET', $url);
         $course = new Course();
@@ -72,16 +73,18 @@ class CourseCrawler implements LoggerAwareInterface
      */
     private function extractHoles(Crawler $crawler, Course $course): void
     {
-        $tees = array();
+        $tees = new ArrayCollection();
 
         // Extract all tee box available
         foreach ($crawler->filter('#landmarkList')->children() as $tee) {
-            $tees[$tee->getText()] = $tee->getAttribute('value');
+            $tees->set($tee->getText(), $tee->getAttribute('value'));
         }
 
         // For each tee box, extract holes data, slope and sss
         foreach ($tees as $tee => $domValue) {
-            $holes = array();
+            /** @var string $tee */
+
+            $holes = new ArrayCollection();
             // Trigger js to update the table values
             // jQuery is included in the page so it helps
             $this->client->executeScript("$('#landmarkList').val($domValue).trigger('change');");
@@ -105,7 +108,7 @@ class CourseCrawler implements LoggerAwareInterface
                 $hole->setHandicap((int)$localCrawler->filter("#hcp-$i")->getText());
                 $hole->setLength((int)$localCrawler->filter("#dist-$i")->getText());
 
-                $holes[] = $hole;
+                $holes->add($hole);
             }
 
             $landmark->setHoles($holes);

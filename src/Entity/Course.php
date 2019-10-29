@@ -81,7 +81,7 @@ class Course
     }
 
     /**
-     * @return Landmark[]|ArrayCollection
+     * @return Collection|Landmark[]
      */
     public function getLandmarks(): Collection
     {
@@ -89,17 +89,12 @@ class Course
     }
 
     /**
-     * @param Landmark[]|ArrayCollection $landmarks
+     * @param Collection|Landmark[] $landmarks
      * @return Course
      */
     public function setLandmarks($landmarks): self
     {
-        if ($landmarks instanceof ArrayCollection) {
-            $this->landmarks = $landmarks;
-        } else {
-            $this->landmarks = new ArrayCollection($landmarks);
-        }
-
+        $this->landmarks = $landmarks;
         return $this;
     }
 
@@ -114,18 +109,18 @@ class Course
     }
 
     /**
-     * @return string?
+     * @return int?
      */
-    public function getId(): ?string
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @param string $id
+     * @param int $id
      * @return Course
      */
-    public function setId(string $id): self
+    public function setId(int $id): self
     {
         $this->id = $id;
         return $this;

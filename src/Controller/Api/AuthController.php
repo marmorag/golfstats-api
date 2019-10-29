@@ -27,13 +27,13 @@ class AuthController extends AbstractApiController
      */
     private $repository;
     /**
-     * @var UserPasswordEncoder
+     * @var UserPasswordEncoderInterface
      */
     private $encoder;
 
-    public function __construct(EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    public function __construct(UserRepository $repository, UserPasswordEncoderInterface $encoder)
     {
-        $this->repository = $manager->getRepository(User::class);
+        $this->repository = $repository;
         $this->encoder = $encoder;
     }
 
