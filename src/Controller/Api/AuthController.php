@@ -5,11 +5,9 @@ namespace App\Controller\Api;
 use App\Controller\AbstractApiController;
 use App\Entity\User;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -70,5 +68,13 @@ class AuthController extends AbstractApiController
         );
 
         return $this->successResponse($data);
+    }
+
+    /**
+     * @Route(path="/logout", name="auth:logout", methods={"GET"})
+     */
+    public function logout(): void
+    {
+        // auto logout with Security component
     }
 }

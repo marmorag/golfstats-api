@@ -35,6 +35,7 @@
     "phpstan/phpstan-symfony": "^0.11.6",
     "roave/security-advisories": "dev-master",
     "symfony/css-selector": "^4.3",
+    "symfony/http-client": "^4.3",
     "symfony/web-server-bundle": "4.3.*",
     "timeweb/phpstan-enum": "^2.2"
   },

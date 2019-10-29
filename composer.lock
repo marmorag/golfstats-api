@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4bc71d050bb1b030cf1e9df0416cb7d4",
+    "content-hash": "3f0c03cecb3bfe808b3f3a65a3e04221",
     "packages": [
         {
             "name": "api-platform/api-pack",
@@ -4127,16 +4127,16 @@
         },
         {
             "name": "symfony/http-client",
-            "version": "v4.3.5",
+            "version": "4.3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client.git",
-                "reference": "69d438274718121e1166e7f65c290f891a4c8ddb"
+                "reference": "5309e5efc9eb48d9699fdd62470b6414349c1978"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client/zipball/69d438274718121e1166e7f65c290f891a4c8ddb",
-                "reference": "69d438274718121e1166e7f65c290f891a4c8ddb",
+                "url": "https://api.github.com/repos/symfony/http-client/zipball/5309e5efc9eb48d9699fdd62470b6414349c1978",
+                "reference": "5309e5efc9eb48d9699fdd62470b6414349c1978",
                 "shasum": ""
             },
             "require": {
@@ -4185,7 +4185,7 @@
             ],
             "description": "Symfony HttpClient component",
             "homepage": "https://symfony.com",
-            "time": "2019-10-07T10:52:41+00:00"
+            "time": "2019-10-25T13:08:37+00:00"
         },
         {
             "name": "symfony/http-client-contracts",
