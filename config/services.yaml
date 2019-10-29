@@ -23,5 +23,10 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\EventListener\UserPrePersistListener:
+        tags:
+            - name: 'doctrine.orm.entity_listener'
+              event: 'prePersist'
+              entity: 'App\Entity\User'
+              lazy: true
+              priority: 500
