@@ -1,0 +1,25 @@
+service: app
+
+provider:
+    name: aws
+    region: eu-west-3
+    runtime: provided
+
+plugins:
+    - ./vendor/bref/bref
+
+functions:
+    api:
+        handler: public/index.php
+        description: ''
+        reservedConcurrency: 1
+        timeout: 20 # in seconds (API Gateway has a timeout of 29 seconds)
+        layers:
+            - php-73-fpm
+        events:
+            -   http: 'ANY /'
+            -   http: 'ANY /{proxy+}'
+            - schedule:
+                  rate: rate(5 minutes)
+                  input:
+                      warmer: true

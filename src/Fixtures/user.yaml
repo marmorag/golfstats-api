@@ -1,0 +1,11 @@
+parameters:
+  hash: $argon2id$v=19$m=65536,t=4,p=1$GVogxdDLJKuJNk/MG5vx3g$drqOg8MLoYXnQFt4H7TUfjQ5xu9Xt6SpJle+QnFTbSY
+
+App\Entity\User:
+  user_1:
+    firstname: 'guillaume'
+    lastname: 'marmorat'
+    email: 'guillaume.marmorat@gmail.com'
+    password: <{hash}>
+    # password => password
+    roles: [<(App\Enum\Role::ROLE_ADMIN)>]
