@@ -2,79 +2,83 @@
   "name": "gstats/api",
   "description": "REST API for gstats apps. Objective is to run the app on serverless services.",
   "type": "project",
-    "license": "proprietary",
-    "require": {
-        "php": "^7.3.9",
-        "ext-ctype": "*",
-        "ext-iconv": "*",
-        "api-platform/api-pack": "^1.2",
-        "bref/bref": "^0.5.9",
-        "doctrine/doctrine-fixtures-bundle": "^3.2",
-        "myclabs/php-enum": "^1.7",
-        "symfony/console": "4.3.*",
-        "symfony/dotenv": "4.3.*",
-        "symfony/flex": "^1.3.1",
-        "symfony/framework-bundle": "4.3.*",
-        "symfony/monolog-bundle": "^3.4",
-        "symfony/orm-pack": "^1.0",
-        "symfony/panther": "^0.5.2",
-        "symfony/security-bundle": "4.3.*",
-        "symfony/yaml": "4.3.*"
-    },
-    "require-dev": {
+  "license": "proprietary",
+  "require": {
+    "php": "^7.3.9",
+    "ext-ctype": "*",
+    "ext-iconv": "*",
+    "api-platform/api-pack": "^1.2",
+    "bref/bref": "^0.5.9",
+    "doctrine/doctrine-fixtures-bundle": "^3.2",
+    "myclabs/php-enum": "^1.7",
+    "symfony/console": "4.3.*",
+    "symfony/dotenv": "4.3.*",
+    "symfony/flex": "^1.3.1",
+    "symfony/framework-bundle": "4.3.*",
+    "symfony/monolog-bundle": "^3.4",
+    "symfony/orm-pack": "^1.0",
+    "symfony/panther": "^0.5.2",
+    "symfony/security-bundle": "4.3.*",
+    "symfony/yaml": "4.3.*"
+  },
+  "require-dev": {
     "behat/behat": "^3.5",
+    "behat/mink": "^1.7@dev",
+    "behat/mink-extension": "^2.1@dev",
     "hautelook/alice-bundle": "^2.5",
     "phpstan/extension-installer": "^1.0",
     "phpstan/phpstan": "^0.11.19",
     "phpstan/phpstan-doctrine": "^0.11.6",
     "phpstan/phpstan-symfony": "^0.11.6",
     "roave/security-advisories": "dev-master",
+    "symfony/css-selector": "^4.3",
     "symfony/web-server-bundle": "4.3.*",
     "timeweb/phpstan-enum": "^2.2"
   },
-    "config": {
-        "preferred-install": {
-            "*": "dist"
-        },
-        "sort-packages": true
+  "config": {
+    "preferred-install": {
+      "*": "dist"
     },
-    "autoload": {
-        "psr-4": {
-            "App\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "App\\Tests\\": "tests/"
-        }
-    },
-    "replace": {
-        "paragonie/random_compat": "2.*",
-        "symfony/polyfill-ctype": "*",
-        "symfony/polyfill-iconv": "*",
-        "symfony/polyfill-php71": "*",
-        "symfony/polyfill-php70": "*",
-        "symfony/polyfill-php56": "*"
-    },
-    "scripts": {
-        "auto-scripts": {
-            "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
-        },
-        "post-install-cmd": [
-            "@auto-scripts"
-        ],
-        "post-update-cmd": [
-            "@auto-scripts"
-        ]
-    },
-    "conflict": {
-        "symfony/symfony": "*"
-    },
-    "extra": {
-        "symfony": {
-            "allow-contrib": false,
-            "require": "4.3.*"
-        }
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "App\\Tests\\": "tests/"
+    }
+  },
+  "replace": {
+    "paragonie/random_compat": "2.*",
+    "symfony/polyfill-ctype": "*",
+    "symfony/polyfill-iconv": "*",
+    "symfony/polyfill-php71": "*",
+    "symfony/polyfill-php70": "*",
+    "symfony/polyfill-php56": "*"
+  },
+  "scripts": {
+    "auto-scripts": {
+      "cache:clear": "symfony-cmd",
+      "assets:install %PUBLIC_DIR%": "symfony-cmd"
+    },
+    "post-install-cmd": [
+      "@auto-scripts"
+    ],
+    "post-update-cmd": [
+      "@auto-scripts"
+    ]
+  },
+  "conflict": {
+    "symfony/symfony": "*"
+  },
+  "extra": {
+    "symfony": {
+      "allow-contrib": true,
+      "require": "^4.3"
+    }
+  },
+  "minimum-stability": "dev"
 }

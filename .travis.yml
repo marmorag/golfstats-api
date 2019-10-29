@@ -44,6 +44,9 @@ before_install:
   - echo session.gc_probability = 0 >> $INI
   - echo extension=apcu.so >> $INI
 
+  # Start dev server
+  - bin/console server:start
+
 before_script:
   # PHP/Composer
   - composer install --no-interaction
