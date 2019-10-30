@@ -19,7 +19,8 @@
     "symfony/orm-pack": "^1.0",
     "symfony/panther": "^0.5.2",
     "symfony/security-bundle": "4.3.*",
-    "symfony/yaml": "4.3.*"
+    "symfony/yaml": "4.3.*",
+    "ext-json": "*"
   },
   "require-dev": {
     "behat/behat": "^3.5",

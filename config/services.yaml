@@ -30,3 +30,7 @@ services:
               entity: 'App\Entity\User'
               lazy: true
               priority: 500
+
+    App\EventListener\JsonRequestContentParserListener:
+      tags:
+        - { name: kernel.event_listener, event: kernel.request }
