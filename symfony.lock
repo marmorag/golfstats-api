@@ -146,6 +146,9 @@
     "facebook/webdriver": {
         "version": "1.7.1"
     },
+    "fig/link-util": {
+        "version": "1.0.0"
+    },
     "friends-of-behat/symfony-extension": {
         "version": "2.0",
         "recipe": {
@@ -344,6 +347,9 @@
     "symfony/cache-contracts": {
         "version": "v1.1.7"
     },
+    "symfony/class-loader": {
+        "version": "v3.4.32"
+    },
     "symfony/config": {
         "version": "v4.3.5"
     },
@@ -377,12 +383,6 @@
     },
     "symfony/dotenv": {
         "version": "v4.3.5"
-    },
-    "symfony/error-handler": {
-        "version": "4.4.x-dev"
-    },
-    "symfony/error-renderer": {
-        "version": "4.4.x-dev"
     },
     "symfony/event-dispatcher": {
         "version": "v4.3.5"
