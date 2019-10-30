@@ -5,6 +5,10 @@ Feature: API Authentication
   Scenario: I can't access a resource when I'm not authenticated
     When I send a GET request to "/api/users"
     Then the response status code should be 401
+    And the response should be equal to:
+    """
+    {"message":"The request did not include an authentication token or the authentication token was expired."}
+    """
 
   Scenario: I can login on API and get access token
     When I send a POST request to "/auth" with parameters:
