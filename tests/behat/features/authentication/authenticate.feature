@@ -2,36 +2,38 @@ Feature: API Authentication
   As an user
   I must be able to authenticate on the API
 
-  Scenario: I can't access a ressource when I'm not authenticated
-    When I request "GET /api/users"
-    Then The response code should be: 401
-    And The response body should be "hydra:description" "Full authentication is required to access this resource."
+  Scenario: I can't access a resource when I'm not authenticated
+    When I send a GET request to "/api/users"
+    Then the response status code should be 401
+    And the response should be in JSON
+    And the response should be equal to:
+    """
+    {"message":"The request did not include an authentication token or the authentication token was expired."}
+    """
 
   Scenario: I can login on API and get access token
-    Given I have the following credentials:
-      """
-      {
-        "username": "guillaume.marmorat@gmail.com",
-        "password" : "password"
-      }
-      """
-    When I request "POST /api/authenticate"
-    Then The response code should be: 401
-    And I should be authenticated
+    When I send a POST request to "/auth" with parameters:
+        | key      | value                        |
+        | login    | guillaume.marmorat@gmail.com |
+        | password | password                     |
+    Then the response status code should be 200
+    And the response should be in JSON
+    And the response should contain "token"
 
-  Scenario: I can logout from the application
-    When I request "GET /logout"
-    Then I should not be authenticated
+  Scenario: I cannot login on API when credentials are invalid : bad password
+    When I send a POST request to "/auth" with parameters:
+      | key      | value                        |
+      | login    | guillaume.marmorat@gmail.com |
+      | password | secretPassword               |
+    Then the response status code should be 403
+    And the response should be in JSON
+    And the response should not contain "token"
 
-  Scenario Outline: I can't login if my credentials are invalid
-    When I am on "/login"
-    And I fill in "email" with "<email>"
-    And I fill in "password" with "<password>"
-    And I press "loginBtn"
-    Then I should be on "/login"
-    And the response should contain "Invalid credentials"
-
-    Examples:
-      | email                    | password        |
-      | i-dont-exist@example.com | test            |
-      | user1@example.com        | not my password |
+  Scenario: I cannot login on API when credentials are invalid : bad login
+    When I send a POST request to "/auth" with parameters:
+      | key      | value                  |
+      | login    | i-dont-exist@gmail.com |
+      | password | password               |
+    Then the response status code should be 404
+    And the response should be in JSON
+    And the response should not contain "token"

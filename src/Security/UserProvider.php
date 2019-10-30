@@ -18,9 +18,9 @@ class UserProvider implements UserProviderInterface
      */
     private $repository;
 
-    public function __construct(EntityManagerInterface $manager)
+    public function __construct(UserRepository $repository)
     {
-        $this->repository = $manager->getRepository(User::class);
+        $this->repository = $repository;
     }
 
     /**
@@ -30,7 +30,7 @@ class UserProvider implements UserProviderInterface
     {
         $user = $this->repository->findOneBy(['mail' => $username]);
 
-        if (!isset($user) || !$user instanceof User){
+        if (!isset($user) || !$user instanceof User) {
             throw new UsernameNotFoundException('The given login was not found');
         }
 

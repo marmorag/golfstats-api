@@ -2,7 +2,6 @@
 
 namespace App\Serializer;
 
-
 use App\Entity\Contact;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 

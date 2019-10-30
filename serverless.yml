@@ -1,9 +1,13 @@
-service: app
+service: golfstats
 
 provider:
     name: aws
-    region: eu-west-3
+    region: eu-west-2
     runtime: provided
+    apiName: golfstats-api
+    environment:
+      APP_ENV: prod
+      DATABASE_URL: postgresql://postgres@golfstats-api-database-0.cddtobjeksbr.eu-west-2.rds.amazonaws.com:5432/golfstats
 
 plugins:
     - ./vendor/bref/bref
@@ -15,7 +19,7 @@ functions:
         reservedConcurrency: 1
         timeout: 20 # in seconds (API Gateway has a timeout of 29 seconds)
         layers:
-            - php-73-fpm
+            - arn:aws:lambda:eu-west-2:042737077930:layer:php-73-fpm:1
         events:
             -   http: 'ANY /'
             -   http: 'ANY /{proxy+}'
@@ -23,3 +27,10 @@ functions:
                   rate: rate(5 minutes)
                   input:
                       warmer: true
+        vpc:
+            securityGroupIds:
+                - sg-441c462a
+            subnetIds:
+                - subnet-e513688c
+                - subnet-eec04794
+                - subnet-181bd154

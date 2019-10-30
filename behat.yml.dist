@@ -1,0 +1,22 @@
+default:
+  autoload:
+    '': '%paths.base%/tests/behat/bootstrap'
+
+  suites:
+    default:
+      paths: ['%paths.base%/tests/behat']
+      contexts:
+        - Behat\MinkExtension\Context\MinkContext
+        - behatch:context:json
+        - behatch:context:rest
+
+  extensions:
+    FriendsOfBehat\SymfonyExtension: ~
+
+    Behat\MinkExtension:
+      base_url: "http://localhost:8000/"
+      sessions:
+        symfony:
+          symfony: ~
+
+    Behatch\Extension: ~

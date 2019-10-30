@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-
 use App\Entity\Golf;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -15,7 +14,6 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class GolfRepository extends ServiceEntityRepository
 {
-
     public function __construct(ManagerRegistry $registry, string $entityClass = Golf::class)
     {
         parent::__construct($registry, $entityClass);
@@ -30,14 +28,17 @@ class GolfRepository extends ServiceEntityRepository
      */
     public function exist($golf): bool
     {
-        if ($this->findOneBy(['name' => $golf->getName()]))
+        if ($this->findOneBy(['name' => $golf->getName()])) {
             return true;
+        }
 
-        if ($golf->getId() === null)
+        if ($golf->getId() === null) {
             return false;
+        }
 
-        if ($this->findOneBy(['id' => $golf->getId()]))
+        if ($this->findOneBy(['id' => $golf->getId()])) {
             return true;
+        }
 
         return false;
     }

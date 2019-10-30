@@ -71,18 +71,12 @@ class Golf
     }
 
     /**
-     * @param Course[]|ArrayCollection $courses
+     * @param Collection|Course[] $courses
      * @return Golf
      */
     public function setCourses($courses): self
     {
-        if ($courses instanceof ArrayCollection){
-            $this->courses = $courses;
-        }
-        else {
-            $this->courses = new ArrayCollection($courses);
-        }
-
+        $this->courses = $courses;
         return $this;
     }
 
@@ -97,7 +91,7 @@ class Golf
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection|Course[]
      */
     public function getCourses(): Collection
     {
@@ -141,18 +135,18 @@ class Golf
     }
 
     /**
-     * @return string?
+     * @return int?
      */
-    public function getId(): ?string
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @param string $id
+     * @param int $id
      * @return Golf
      */
-    public function setId(?string $id): self
+    public function setId(int $id): self
     {
         $this->id = $id;
         return $this;

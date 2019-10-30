@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-
 use ApiPlatform\Core\Annotation\ApiResource;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -50,7 +49,7 @@ class Scorecard
     private $course;
 
     /**
-     * @var Score[]
+     * @var Collection|Score[]
      * @ORM\ManyToMany(targetEntity="App\Entity\Score")
      * @ORM\JoinTable(
      *     name="scorecards_scores",
@@ -125,18 +124,18 @@ class Scorecard
     }
 
     /**
-     * @return Score[]|Collection
+     * @return Collection|Score[]
      */
-    public function getScores(): array
+    public function getScores(): Collection
     {
         return $this->scores;
     }
 
     /**
-     * @param Score[] $scores
+     * @param Collection|Score[] $scores
      * @return Scorecard
      */
-    public function setScores(array $scores): self
+    public function setScores($scores): self
     {
         $this->scores = $scores;
         return $this;
@@ -197,18 +196,18 @@ class Scorecard
     }
 
     /**
-     * @return string?
+     * @return int?
      */
-    public function getId(): ?string
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @param string $id
+     * @param int $id
      * @return Scorecard
      */
-    public function setId(string $id): self
+    public function setId(int $id): self
     {
         $this->id = $id;
         return $this;

@@ -43,7 +43,7 @@ class Landmark
     private $name;
 
     /**
-     * @var \App\Entity\Hole[]|ArrayCollection
+     * @var Collection|Hole[]
      *
      * One To Many - Unidirectionnal
      *
@@ -117,7 +117,7 @@ class Landmark
     }
 
     /**
-     * @return Hole[]|ArrayCollection
+     * @return Collection|Hole[]
      */
     public function getHoles(): Collection
     {
@@ -125,16 +125,12 @@ class Landmark
     }
 
     /**
-     * @param Hole[] $holes
+     * @param Collection|Hole[] $holes
      * @return Landmark
      */
     public function setHoles($holes): self
     {
-        if ($holes instanceof ArrayCollection){
-            $this->holes = $holes;
-        } else {
-            $this->holes = new ArrayCollection($holes);
-        }
+        $this->holes = $holes;
         return $this;
     }
 
@@ -211,21 +207,20 @@ class Landmark
     }
 
     /**
-     * @return string?
+     * @return int?
      */
-    public function getId(): ?string
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @param string $id
+     * @param int $id
      * @return Landmark
      */
-    public function setId(string $id): self
+    public function setId(int $id): self
     {
         $this->id = $id;
         return $this;
     }
-
 }

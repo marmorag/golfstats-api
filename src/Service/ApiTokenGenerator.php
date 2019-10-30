@@ -2,16 +2,9 @@
 
 namespace App\Service;
 
-
 class ApiTokenGenerator
 {
-
-    private $prefix;
-
-    public function __construct()
-    {
-        $this->prefix = 'mygstatapi-token:';
-    }
+    private $prefix = 'mygstatapi-token:';
 
     public function generate() : string
     {

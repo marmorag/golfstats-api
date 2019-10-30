@@ -68,11 +68,6 @@ class User implements UserInterface
     protected $password;
 
     /**
-     * @var string
-     */
-    private $plainPassword;
-
-    /**
      * @var array
      * @ORM\Column(type="json")
      */
@@ -169,24 +164,6 @@ class User implements UserInterface
     }
 
     /**
-     * @return string
-     */
-    public function getPlainPassword(): string
-    {
-        return $this->plainPassword;
-    }
-
-    /**
-     * @param string $plainPassword
-     * @return User
-     */
-    public function setPlainPassword(string $plainPassword): User
-    {
-        $this->plainPassword = $plainPassword;
-        return $this;
-    }
-
-    /**
      * @return mixed
      */
     public function getApiToken()
@@ -226,7 +203,7 @@ class User implements UserInterface
     /**
      * {@inheritdoc}
      */
-    public function getSalt(): string
+    public function getSalt(): ?string
     {
         return null;
     }
@@ -244,6 +221,5 @@ class User implements UserInterface
      */
     public function eraseCredentials(): void
     {
-        $this->plainPassword = null;
     }
 }

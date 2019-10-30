@@ -5,7 +5,6 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-
 use App\Entity\Hole;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;

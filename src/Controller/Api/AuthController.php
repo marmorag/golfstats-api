@@ -5,11 +5,9 @@ namespace App\Controller\Api;
 use App\Controller\AbstractApiController;
 use App\Entity\User;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -18,7 +16,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 class AuthController extends AbstractApiController
 {
-
     public const AUTH_MISSING_KEY = 'Some parameters are missing. The request must provide login and password.';
     public const AUTH_NOT_FOUND_USER = 'The provided login does not exist.';
     public const AUTH_INVALID_PASSWORD = 'The provided password in invalid.';
@@ -28,13 +25,13 @@ class AuthController extends AbstractApiController
      */
     private $repository;
     /**
-     * @var UserPasswordEncoder
+     * @var UserPasswordEncoderInterface
      */
     private $encoder;
 
-    public function __construct(EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    public function __construct(UserRepository $repository, UserPasswordEncoderInterface $encoder)
     {
-        $this->repository = $manager->getRepository(User::class);
+        $this->repository = $repository;
         $this->encoder = $encoder;
     }
 
@@ -50,17 +47,17 @@ class AuthController extends AbstractApiController
         $login = $request->request->get('login');
         $password = $request->request->get('password');
 
-        if (!isset($login, $password)){
+        if (!isset($login, $password)) {
             return $this->invalidRequestResponse(array('message' => self::AUTH_MISSING_KEY));
         }
 
         $user = $this->repository->findOneBy(['email' => $login]);
 
-        if (!isset($user) || !$user instanceof User){
+        if (!isset($user) || !$user instanceof User) {
             return $this->unknownRessourceResponse(array('message' => 'The provided login does not exist.'));
         }
 
-        if (!$this->encoder->isPasswordValid($user, $password)){
+        if (!$this->encoder->isPasswordValid($user, $password)) {
             return $this->forbiddenResponse(array('message' => 'The provided password in invalid.'));
         }
 

@@ -7,8 +7,8 @@ php:
 env:
   global:
     - TZ=Europe/Paris
-    - DATABASE_URL=pgsql://postgres@127.0.0.1:5433/cosmos_test
-    - DATABASE_SERVER_VERSION=10
+    - DATABASE_URL=pgsql://postgres@127.0.0.1:5432/golfstats
+    - DATABASE_SERVER_VERSION=11
 
 cache:
   directories:
@@ -44,6 +44,12 @@ before_install:
   - echo session.gc_probability = 0 >> $INI
   - echo extension=apcu.so >> $INI
 
+  # Start dev server
+  - bin/console server:start
+
+  # Behat setup conf
+  - cp ./behat.yml.dist ./behat.yml
+
 before_script:
   # PHP/Composer
   - composer install --no-interaction
@@ -55,7 +61,6 @@ before_script:
   - bin/console hautelook:fixtures:load --no-interaction
 
 script:
-  - composer validate
   - bin/console lint:yaml config --parse-tags
   - bin/php-cs-fixer-v2.phar fix --verbose --diff --dry-run src/
 
