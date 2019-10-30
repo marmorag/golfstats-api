@@ -1,5 +1,6 @@
 
 /.idea
+/.serverless
 /.php_cs.cache
 
 ###> symfony/framework-bundle ###
