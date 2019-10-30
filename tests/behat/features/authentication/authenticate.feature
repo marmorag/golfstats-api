@@ -16,6 +16,7 @@ Feature: API Authentication
         | login    | guillaume.marmorat@gmail.com |
         | password | password                     |
     Then the response status code should be 200
+    And the response should not contain "token"
 #    add check on token presence
 
   Scenario: I cannot login on API when credentials are invalid : bad password
