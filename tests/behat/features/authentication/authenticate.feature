@@ -7,26 +7,23 @@ Feature: API Authentication
     Then the response status code should be 401
 
   Scenario: I can login on API and get access token
-    When I send a POST request to "/auth" with body:
-        """
-        {
-          "login": "guillaume.marmorat@gmail.com",
-          "password": "password"
-        }
-        """
+    When I send a POST request to "/auth" with parameters:
+        | key      | value                        |
+        | login    | guillaume.marmorat@gmail.com |
+        | password | password                     |
     Then the response status code should be 200
-    And I should be authenticated
+#    add check on token presence
 
-  Scenario: I cannot login on API when credentials are invalid
-    Given I have the following credentials "i-dont-exist@example.com" "test"
-    When I send a "POST" request at "/authenticate"
+  Scenario: I cannot login on API when credentials are invalid : bad password
+    When I send a POST request to "/auth" with parameters:
+      | key      | value                        |
+      | login    | guillaume.marmorat@gmail.com |
+      | password | secretPassword               |
     Then the response status code should be 403
-    And I should not be authenticated
 
-  Scenario: I can logout from the application
-    Given I have the following credentials "guillaume.marmorat@gmail.com" "password"
-    When I send a "POST" request at "/authenticate"
-    Then the response status code should be 200
-    And I should be authenticated
-    Then I send a "GET" request at "/logout"
-    And I should not be authenticated
+  Scenario: I cannot login on API when credentials are invalid : bad login
+    When I send a POST request to "/auth" with parameters:
+      | key      | value                  |
+      | login    | i-dont-exist@gmail.com |
+      | password | password               |
+    Then the response status code should be 404

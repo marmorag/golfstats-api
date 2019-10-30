@@ -69,12 +69,4 @@ class AuthController extends AbstractApiController
 
         return $this->successResponse($data);
     }
-
-    /**
-     * @Route(path="/logout", name="auth:logout", methods={"GET"})
-     */
-    public function logout(): void
-    {
-        // auto logout with Security component
-    }
 }
