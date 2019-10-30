@@ -1,6 +1,6 @@
 # api
 
-[![Build Status](https://travis-ci.com/GolsStats/api.svg?branch=master)](https://travis-ci.com/GolfStats/api)
+[![Build Status](https://travis-ci.com/GolfStats/api.svg?branch=develop)](https://travis-ci.com/GolfStats/api)
 
 ---
 
