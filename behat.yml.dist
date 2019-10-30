@@ -9,7 +9,6 @@ default:
         - Behat\MinkExtension\Context\MinkContext
         - behatch:context:json
         - behatch:context:rest
-        - App\Tests\Behat\AuthenticationContext
 
   extensions:
     FriendsOfBehat\SymfonyExtension: ~
