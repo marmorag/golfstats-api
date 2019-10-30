@@ -46,6 +46,8 @@ before_install:
 
   # Start dev server
   - bin/console server:start
+
+  # Behat setup conf
   - cp ./behat.yml.dist ./behat.yml
 
 before_script:
