@@ -46,6 +46,7 @@ before_install:
 
   # Start dev server
   - bin/console server:start
+  - cp ./behat.yml.dist ./behat.yml
 
 before_script:
   # PHP/Composer
