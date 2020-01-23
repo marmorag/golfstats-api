@@ -12,7 +12,7 @@ class ResponseEventSubscriber implements EventSubscriberInterface
 {
 
     /**
-     * @inheritDoc
+     * @return array<mixed>
      */
     public static function getSubscribedEvents(): array
     {

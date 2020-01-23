@@ -21,14 +21,18 @@ class CourseNormalizer implements DenormalizerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param array<string, mixed> $data
+     * @param string $class
+     * @param string|null $format
+     * @param array<mixed> $context
+     * @return Course
      */
     public function denormalize($data, $class, $format = null, array $context = []): Course
     {
         $course = new Course();
 
         if (isset($data['id']) && $data['id'] !== '') {
-            $course->setId($data['id']);
+            $course->setId((int)$data['id']);
         }
 
         $course->setName($data['name'] ?? '');
@@ -54,7 +58,7 @@ class CourseNormalizer implements DenormalizerInterface
         $landmark = new Landmark();
 
         if (isset($data['id']) && $data['id'] !== '') {
-            $landmark->setId($data['id']);
+            $landmark->setId((int)$data['id']);
         }
 
         $landmark->setName($data['name'] ?? '');
@@ -84,7 +88,7 @@ class CourseNormalizer implements DenormalizerInterface
         $hole = new Hole();
 
         if (isset($data['id']) && $data['id'] !== '') {
-            $hole->setId($data['id']);
+            $hole->setId((int)$data['id']);
         }
 
         $hole->setLength($data['length'] ?? 0);

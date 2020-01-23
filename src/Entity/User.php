@@ -39,7 +39,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string")
      */
-    protected string $apiToken;
+    protected ?string $apiToken;
 
     /**
      * @ORM\Column(type="string")
@@ -122,7 +122,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getApiToken(): string
+    public function getApiToken(): ?string
     {
         return $this->apiToken;
     }
