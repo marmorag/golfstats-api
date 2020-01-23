@@ -8,9 +8,9 @@ env:
   CI: true
   TZ: Europe/Paris
   PHP_VERSION: 7.4
-  POSTGRES_USER: golfstats
-  POSTGRES_PASSWORD: password
-  POSTGRES_DB: golfstats
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_DB: postgres
   POSTGRES_VERSION: 11
   COMPOSER_ALLOW_SUPERUSER: '1'
 
