@@ -37,7 +37,7 @@
     "roave/security-advisories": "dev-master",
     "symfony/css-selector": "^4.3",
     "symfony/http-client": "^4.3",
-    "symfony/web-server-bundle": "4.3.*",
+    "symfony/web-server-bundle": "4.4.*",
     "timeweb/phpstan-enum": "^2.2"
   },
   "config": {
