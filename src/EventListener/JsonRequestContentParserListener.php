@@ -4,12 +4,13 @@ namespace App\EventListener;
 
 use App\Controller\AbstractApiController;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class JsonRequestContentParserListener extends AbstractApiController
 {
-    public function onKernelRequest(ResponseEvent $event): void
+    public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
 

@@ -21,7 +21,7 @@ class AuthController extends AbstractApiController
 {
     public const AUTH_MISSING_KEY = 'Some parameters are missing. The request must provide login and password.';
     public const AUTH_NOT_FOUND_USER = 'The provided login does not exist.';
-    public const AUTH_INVALID_PASSWORD = 'The provided password in invalid.';
+    public const AUTH_INVALID_PASSWORD = 'The provided password is invalid.';
 
     private UserRepository $repository;
     private UserPasswordEncoderInterface $encoder;
@@ -33,7 +33,7 @@ class AuthController extends AbstractApiController
     }
 
     /**
-     * @Route(path="/auth", name="auth:authenticate", methods={"POST"})
+     * @Route(path="/api/auth", name="api_authenticate", methods={"POST"})
      *
      * @param Request $request
      *

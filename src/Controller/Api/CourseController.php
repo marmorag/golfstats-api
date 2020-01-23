@@ -17,7 +17,7 @@ class CourseController extends AbstractApiController implements LoggerAwareInter
     use LoggerAwareTrait;
 
     /**
-     * @Route("/course-crawl", name="course:crawl", methods={"POST"})
+     * @Route("/api/courses/crawl", name="api_courses_crawl", methods={"POST"})
      *
      * @param Request $request
      * @param CourseCrawler $courseCrawler
