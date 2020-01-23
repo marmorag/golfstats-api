@@ -16,7 +16,7 @@
     "symfony/yaml": "^4.4",
     "symfony/monolog-bundle": "^3.4",
     "symfony/orm-pack": "^1.0",
-    "symfony/panther": "^0.5.2",
+    "symfony/panther": "^0.6.1",
     "api-platform/api-pack": "^1.2",
     "bref/bref": "^0.5.9",
     "doctrine/doctrine-fixtures-bundle": "^3.2",
