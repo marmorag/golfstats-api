@@ -39,7 +39,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string")
      */
-    protected ?string $apiToken;
+    protected ?string $apiToken = null;
 
     /**
      * @ORM\Column(type="string")
