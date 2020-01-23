@@ -7,6 +7,9 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -18,16 +21,10 @@ class AuthController extends AbstractApiController
 {
     public const AUTH_MISSING_KEY = 'Some parameters are missing. The request must provide login and password.';
     public const AUTH_NOT_FOUND_USER = 'The provided login does not exist.';
-    public const AUTH_INVALID_PASSWORD = 'The provided password in invalid.';
+    public const AUTH_INVALID_PASSWORD = 'The provided password is invalid.';
 
-    /**
-     * @var UserRepository
-     */
-    private $repository;
-    /**
-     * @var UserPasswordEncoderInterface
-     */
-    private $encoder;
+    private UserRepository $repository;
+    private UserPasswordEncoderInterface $encoder;
 
     public function __construct(UserRepository $repository, UserPasswordEncoderInterface $encoder)
     {
@@ -36,7 +33,7 @@ class AuthController extends AbstractApiController
     }
 
     /**
-     * @Route(path="/auth", name="auth:authenticate", methods={"POST"})
+     * @Route(path="/api/auth", name="api_authenticate", methods={"POST"})
      *
      * @param Request $request
      *
@@ -48,25 +45,25 @@ class AuthController extends AbstractApiController
         $password = $request->request->get('password');
 
         if (!isset($login, $password)) {
-            return $this->invalidRequestResponse(array('message' => self::AUTH_MISSING_KEY));
+            throw new BadRequestHttpException(static::AUTH_MISSING_KEY);
         }
 
         $user = $this->repository->findOneBy(['email' => $login]);
 
         if (!isset($user) || !$user instanceof User) {
-            return $this->unknownRessourceResponse(array('message' => 'The provided login does not exist.'));
+            throw new NotFoundHttpException(static::AUTH_NOT_FOUND_USER);
         }
 
         if (!$this->encoder->isPasswordValid($user, $password)) {
-            return $this->forbiddenResponse(array('message' => 'The provided password in invalid.'));
+            throw new AccessDeniedHttpException(static::AUTH_INVALID_PASSWORD);
         }
 
-        $data = array(
-            'data' => array(
+        $data = [
+            'data' => [
                 'token' => $user->getApiToken()
-            ),
-        );
+            ],
+        ];
 
-        return $this->successResponse($data);
+        return $this->buildResponse(Response::HTTP_OK, $data);
     }
 }

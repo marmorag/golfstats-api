@@ -12,7 +12,7 @@ Feature: API Authentication
     """
 
   Scenario: I can login on API and get access token
-    When I send a POST request to "/auth" with parameters:
+    When I send a POST request to "/api/auth" with parameters:
         | key      | value                        |
         | login    | guillaume.marmorat@gmail.com |
         | password | password                     |
@@ -21,7 +21,7 @@ Feature: API Authentication
     And the response should contain "token"
 
   Scenario: I cannot login on API when credentials are invalid : bad password
-    When I send a POST request to "/auth" with parameters:
+    When I send a POST request to "/api/auth" with parameters:
       | key      | value                        |
       | login    | guillaume.marmorat@gmail.com |
       | password | secretPassword               |
@@ -30,7 +30,7 @@ Feature: API Authentication
     And the response should not contain "token"
 
   Scenario: I cannot login on API when credentials are invalid : bad login
-    When I send a POST request to "/auth" with parameters:
+    When I send a POST request to "/api/auth" with parameters:
       | key      | value                  |
       | login    | i-dont-exist@gmail.com |
       | password | password               |

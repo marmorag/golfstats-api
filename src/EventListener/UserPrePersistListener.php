@@ -10,7 +10,7 @@ use App\Service\ApiTokenGenerator;
 
 class UserPrePersistListener
 {
-    private $tokenGenerator;
+    private ApiTokenGenerator $tokenGenerator;
 
     public function __construct(ApiTokenGenerator $tokenGenerator)
     {

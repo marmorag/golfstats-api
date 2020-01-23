@@ -2,35 +2,37 @@
 
 namespace App\Serializer;
 
+use App\Entity\Contact;
 use App\Entity\Course;
 use App\Entity\Golf;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
+use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
-class GolfNormalizer implements DenormalizerInterface
+class GolfNormalizer implements DenormalizerInterface, DenormalizerAwareInterface
 {
-    private $courseDenormalizer;
-    private $contactDenormalizer;
-
-    public function __construct()
-    {
-        $this->courseDenormalizer = new CourseNormalizer();
-        $this->contactDenormalizer = new ContactNormalizer();
-    }
+    use DenormalizerAwareTrait;
 
     /**
      * {@inheritdoc}
      */
     public function supportsDenormalization($data, $type, $format = null): bool
     {
-        return $type === Golf::class
-            && $format === 'json';
+        return $type === Golf::class && $format === 'json';
     }
 
     /**
-     * {@inheritdoc}
+     * @param array<string, mixed> $data
+     * @param string $class
+     * @param string|null $format
+     * @param array<mixed> $context
+     * @return Golf
+     *
+     * @throws ExceptionInterface
      */
-    public function denormalize($data, $class, $format = null, array $context = [])
+    public function denormalize($data, $class, $format = null, array $context = []): Golf
     {
         if ($format !== 'json') {
             throw new InvalidArgumentException('Only JSON format is supported by this denormalizer.');
@@ -44,13 +46,15 @@ class GolfNormalizer implements DenormalizerInterface
         $golf->setName($data['name'] ?? '');
 
         if (isset($data['contact'])) {
-            $golf->setContact($this->contactDenormalizer->denormalize($data['contact'], 'json'));
+            /** @var Contact $contact */
+            $contact = $this->denormalizer->denormalize($data['contact'], 'json');
+            $golf->setContact($contact);
         }
 
         if (isset($data['courses'])) {
             foreach ($data['courses'] as $course) {
                 /** @var Course $normalizedCourse */
-                $normalizedCourse = $this->courseDenormalizer->denormalize($course, 'json');
+                $normalizedCourse = $this->denormalizer->denormalize($course, 'json');
                 $golf->addCourse($normalizedCourse);
             }
         }

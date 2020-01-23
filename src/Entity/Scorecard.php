@@ -27,29 +27,26 @@ class Scorecard
 {
 
     /**
-     * @var integer
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
-     * @var Player
      * @ORM\ManyToOne(targetEntity="App\Entity\Player", inversedBy="scorecards")
      * @Groups("scorecard")
      */
-    private $player;
+    private Player $player;
 
     /**
-     * @var Course
      * @ORM\ManyToOne(targetEntity="App\Entity\Course")
      * @Groups("scorecard")
      */
-    private $course;
+    private Course $course;
 
     /**
-     * @var Collection|Score[]
+     * @var Collection<int, Score>
      * @ORM\ManyToMany(targetEntity="App\Entity\Score")
      * @ORM\JoinTable(
      *     name="scorecards_scores",
@@ -61,25 +58,22 @@ class Scorecard
     private $scores;
 
     /**
-     * @var Landmark
      * @ORM\ManyToOne(targetEntity="App\Entity\Landmark")
      * @Groups("scorecard")
      */
-    private $landmark;
+    private Landmark $landmark;
 
     /**
-     * @var DateTime
      * @ORM\Column(type="date")
      * @Groups("scorecard")
      */
-    private $date;
+    private DateTime $date;
 
     /**
-     * @var float
      * @ORM\Column(type="float")
      * @Groups("scorecard")
      */
-    private $playerIndex;
+    private float $playerIndex;
 
     public function __construct()
     {
@@ -87,36 +81,22 @@ class Scorecard
         $this->playerIndex = 54.0;
     }
 
-    /**
-     * @return Player
-     */
     public function getPlayer(): Player
     {
         return $this->player;
     }
 
-    /**
-     * @param Player $player
-     * @return Scorecard
-     */
     public function setPlayer(Player $player): self
     {
         $this->player = $player;
         return $this;
     }
 
-    /**
-     * @return Course
-     */
     public function getCourse(): Course
     {
         return $this->course;
     }
 
-    /**
-     * @param Course $course
-     * @return Scorecard
-     */
     public function setCourse(Course $course): self
     {
         $this->course = $course;
@@ -124,7 +104,7 @@ class Scorecard
     }
 
     /**
-     * @return Collection|Score[]
+     * @return Collection<int, Score>
      */
     public function getScores(): Collection
     {
@@ -132,7 +112,7 @@ class Scorecard
     }
 
     /**
-     * @param Collection|Score[] $scores
+     * @param Collection<int, Score> $scores
      * @return Scorecard
      */
     public function setScores($scores): self
@@ -141,72 +121,44 @@ class Scorecard
         return $this;
     }
 
-    /**
-     * @return Landmark
-     */
     public function getLandmark(): Landmark
     {
         return $this->landmark;
     }
 
-    /**
-     * @param Landmark $landmark
-     * @return Scorecard
-     */
     public function setLandmark(Landmark $landmark): self
     {
         $this->landmark = $landmark;
         return $this;
     }
 
-    /**
-     * @return DateTime
-     */
     public function getDate(): DateTime
     {
         return $this->date;
     }
 
-    /**
-     * @param DateTime $date
-     * @return Scorecard
-     */
     public function setDate(DateTime $date): self
     {
         $this->date = $date;
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getPlayerIndex(): float
     {
         return $this->playerIndex;
     }
 
-    /**
-     * @param float $playerIndex
-     * @return Scorecard
-     */
     public function setPlayerIndex(float $playerIndex): self
     {
         $this->playerIndex = $playerIndex;
         return $this;
     }
 
-    /**
-     * @return int?
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     * @return Scorecard
-     */
     public function setId(int $id): self
     {
         $this->id = $id;

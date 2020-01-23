@@ -26,25 +26,23 @@ class Golf
 {
 
     /**
-     * @var integer
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      *
      * @Groups("minimal")
      */
-    private $id;
+    private int $id;
 
     /**
-     * @var string
      * @ORM\Column(type="string")
      *
      * @Groups({"minimal", "golf"})
      */
-    private $name;
+    private string $name;
 
     /**
-     * @var Collection|Course[]
+     * @var Collection<int, Course>
      *
      * One To Many - Unidirectionnal
      *
@@ -59,11 +57,10 @@ class Golf
     private $courses;
 
     /**
-     * @var \App\Entity\Contact
      * @ORM\OneToOne(targetEntity="App\Entity\Contact")
      * @Groups("golf")
      */
-    private $contact;
+    private Contact $contact;
 
     public function __construct()
     {
@@ -71,7 +68,7 @@ class Golf
     }
 
     /**
-     * @param Collection|Course[] $courses
+     * @param Collection<int, Course> $courses
      * @return Golf
      */
     public function setCourses($courses): self
@@ -80,10 +77,6 @@ class Golf
         return $this;
     }
 
-    /**
-     * @param Course $course
-     * @return Golf
-     */
     public function addCourse(Course $course): self
     {
         $this->courses->add($course);
@@ -91,61 +84,40 @@ class Golf
     }
 
     /**
-     * @return Collection|Course[]
+     * @return Collection<int, Course>
      */
     public function getCourses(): Collection
     {
         return $this->courses;
     }
 
-    /**
-     * @return Contact
-     */
     public function getContact(): Contact
     {
         return $this->contact;
     }
 
-    /**
-     * @param Contact $contact
-     * @return Golf
-     */
     public function setContact(Contact $contact): self
     {
         $this->contact = $contact;
         return $this;
     }
 
-    /**
-     * @param string $name
-     * @return Golf
-     */
     public function setName(string $name): self
     {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return int?
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     * @return Golf
-     */
     public function setId(int $id): self
     {
         $this->id = $id;

@@ -27,25 +27,20 @@ class Course
 {
 
     /**
-     * @var integer
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
-     * @var string
      * @ORM\Column(type="string")
      * @Groups("course")
      */
-    private $name;
+    private string $name;
 
     /**
-     * @var \App\Entity\Landmark[]|Collection
-     *
-     * One To Many - Unidirectionnal
-     * https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/association-mapping.html#one-to-many-unidirectional-with-join-table
+     * @var Collection<int, Landmark>
      *
      * @ORM\ManyToMany(targetEntity="App\Entity\Landmark")
      * @ORM\JoinTable(
@@ -62,18 +57,11 @@ class Course
         $this->landmarks = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return Course
-     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -81,7 +69,7 @@ class Course
     }
 
     /**
-     * @return Collection|Landmark[]
+     * @return Collection<int, Landmark>
      */
     public function getLandmarks(): Collection
     {
@@ -89,7 +77,7 @@ class Course
     }
 
     /**
-     * @param Collection|Landmark[] $landmarks
+     * @param Collection<int, Landmark> $landmarks
      * @return Course
      */
     public function setLandmarks($landmarks): self
@@ -98,28 +86,17 @@ class Course
         return $this;
     }
 
-    /**
-     * @param Landmark $landmark
-     * @return $this
-     */
     public function addLandmark(Landmark $landmark): self
     {
         $this->landmarks->add($landmark);
         return $this;
     }
 
-    /**
-     * @return int?
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     * @return Course
-     */
     public function setId(int $id): self
     {
         $this->id = $id;

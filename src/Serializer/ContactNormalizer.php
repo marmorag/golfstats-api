@@ -9,9 +9,13 @@ class ContactNormalizer implements DenormalizerInterface
 {
 
     /**
-     * {@inheritdoc}
+     * @param array<string, string> $data
+     * @param string $class
+     * @param string|null $format
+     * @param array<mixed> $context
+     * @return Contact
      */
-    public function denormalize($data, $class, $format = null, array $context = [])
+    public function denormalize($data, $class, $format = null, array $context = []): Contact
     {
         $contact = new Contact();
 
