@@ -33,17 +33,17 @@ class Landmark
      * @ORM\Column(type="integer")
      * @Groups("scorecard")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      * @ORM\Column(type="string")
      * @Groups({"course", "landmark", "scorecard"})
      */
-    private $name;
+    private string $name;
 
     /**
-     * @var Collection|Hole[]
+     * @var Collection<int, Hole>
      *
      * One To Many - Unidirectionnal
      *
@@ -59,32 +59,28 @@ class Landmark
     private $holes;
 
     /**
-     * @var float
      * @ORM\Column(type="float")
      * @Groups({"course", "landmark"})
      */
-    private $sssMen;
+    private float $sssMen;
 
     /**
-     * @var float
      * @ORM\Column(type="float")
      * @Groups({"course", "landmark"})
      */
-    private $sssLady;
+    private float $sssLady;
 
     /**
-     * @var float
      * @ORM\Column(type="float")
      * @Groups({"course", "landmark"})
      */
-    private $slopeMen;
+    private float $slopeMen;
 
     /**
-     * @var float
      * @ORM\Column(type="float")
      * @Groups({"course", "landmark"})
      */
-    private $slopeLady;
+    private float $slopeLady;
 
     /**
      * Landmark constructor.
@@ -98,18 +94,11 @@ class Landmark
         $this->sssMen = 0.0;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return Landmark
-     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -117,7 +106,7 @@ class Landmark
     }
 
     /**
-     * @return Collection|Hole[]
+     * @return Collection<int, Hole>
      */
     public function getHoles(): Collection
     {
@@ -125,7 +114,7 @@ class Landmark
     }
 
     /**
-     * @param Collection|Hole[] $holes
+     * @param Collection<int, Hole> $holes
      * @return Landmark
      */
     public function setHoles($holes): self
@@ -134,90 +123,55 @@ class Landmark
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getSssMen(): float
     {
         return $this->sssMen;
     }
 
-    /**
-     * @param float $sssMen
-     * @return Landmark
-     */
     public function setSssMen(float $sssMen): self
     {
         $this->sssMen = $sssMen;
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getSssLady(): float
     {
         return $this->sssLady;
     }
 
-    /**
-     * @param float $sssLady
-     * @return Landmark
-     */
     public function setSssLady(float $sssLady): self
     {
         $this->sssLady = $sssLady;
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getSlopeMen(): float
     {
         return $this->slopeMen;
     }
 
-    /**
-     * @param float $slopeMen
-     * @return Landmark
-     */
     public function setSlopeMen(float $slopeMen): self
     {
         $this->slopeMen = $slopeMen;
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getSlopeLady(): float
     {
         return $this->slopeLady;
     }
 
-    /**
-     * @param float $slopeLady
-     * @return Landmark
-     */
     public function setSlopeLady(float $slopeLady): self
     {
         $this->slopeLady = $slopeLady;
         return $this;
     }
 
-    /**
-     * @return int?
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     * @return Landmark
-     */
     public function setId(int $id): self
     {
         $this->id = $id;

@@ -30,157 +30,113 @@ class User implements UserInterface
 {
 
     /**
-     * @var integer
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    protected $id;
+    protected int $id;
 
     /**
-     * @var string
      * @ORM\Column(type="string")
      */
-    protected $apiToken;
+    protected string $apiToken;
 
     /**
-     * @var string
      * @ORM\Column(type="string")
      */
-    protected $firstname;
+    protected string $firstname;
 
     /**
-     * @var string
      * @ORM\Column(type="string")
      */
-    protected $lastname;
+    protected string $lastname;
 
     /**
-     * @var string
      * @ORM\Column(type="string")
      */
-    protected $email;
+    protected string $email;
 
     /**
-     * @var string
      * @ORM\Column(type="string")
      */
-    protected $password;
+    protected string $password;
 
     /**
-     * @var array
+     * @var array<string>
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private array $roles = [];
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param mixed $id
-     * @return User
-     */
-    public function setId($id): self
+    public function setId(int $id): self
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFirstname()
+    public function getFirstname(): string
     {
         return $this->firstname;
     }
 
-    /**
-     * @param mixed $firstname
-     * @return User
-     */
-    public function setFirstname($firstname): self
+    public function setFirstname(string $firstname): self
     {
         $this->firstname = $firstname;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLastname()
+    public function getLastname(): string
     {
         return $this->lastname;
     }
 
-    /**
-     * @param mixed $lastname
-     * @return User
-     */
-    public function setLastname($lastname): self
+    public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    /**
-     * @param mixed $email
-     * @return User
-     */
-    public function setEmail($email): self
+    public function setEmail(string $email): self
     {
         $this->email = $email;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
 
-    /**
-     * @param mixed $password
-     * @return User
-     */
-    public function setPassword($password): self
+    public function setPassword(string $password): self
     {
         $this->password = $password;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getApiToken()
+    public function getApiToken(): string
     {
         return $this->apiToken;
     }
 
-    /**
-     * @param mixed $apiToken
-     * @return User
-     */
-    public function setApiToken($apiToken): self
+    public function setApiToken(string $apiToken): self
     {
         $this->apiToken = $apiToken;
         return $this;
     }
 
+    /**
+     * @param array<string> $roles
+     * @return User
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
