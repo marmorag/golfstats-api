@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+env:
+  CI: true
+  TZ: Europe/Paris
+  PHP_VERSION: 7.4
+  POSTGRES_USER: golfstats
+  POSTGRES_PASSWORD: password
+  POSTGRES_DB: golfstats
+  POSTGRES_VERSION: 11
+  COMPOSER_ALLOW_SUPERUSER: '1'
+
+  # Application
+  APP_ENV: test
+
+jobs:
+  php:
+    runs-on: ubuntu-16.04
+    services:
+      postgres:
+        image: postgres:11
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: set DATABASE_URL environment variable
+        run: echo "::set-env name=DATABASE_URL::pgsql://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@127.0.0.1:${{ job.services.postgres.ports[5432] }}/${{ env.POSTGRES_DB }}?serverVersion=${{ env.POSTGRES_VERSION }}"
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          coverage: none
+          extensions: ctype, iconv, intl, json, zip
+          ini-values: date.timezone=Europe/Paris, memory_limit=-1, session.gc_probability=0, opcache.enable=1, opcache.enable_cli=1, opcache.memory_consumption=256, opcache.max_accelerated_files=20000, opcache.validate_timestamps=0, realpath_cache_size=4096K, realpath_cache_ttl=600
+
+      - uses: actions/checkout@v2
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+
+      - name: Bootstrap database
+        run: |
+          bin/console doctrine:schema:update --force --no-interaction
+          bin/console hautelook:fixtures:load --no-interaction
+
+      - run: composer validate
+
+      - run: bin/console lint:yaml config --parse-tags
+
+      - run: bin/php-cs-fixer.phar fix --verbose --diff --dry-run src/
+
+      - run: bin/console doctrine:schema:validate
+
+      - name: Check if ApiPlatform is correctly configured
+        run: bin/console api:swagger:export > /dev/null
+
+      - run: |
+          APP_ENV=dev php bin/console cache:clear # PHPStan need container from dev environment
+          bin/phpstan.phar analyse src/
+
+      - run: vendor/bin/behat --format progress

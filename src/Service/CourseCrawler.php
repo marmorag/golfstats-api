@@ -6,7 +6,7 @@ use App\Entity\Hole;
 use App\Entity\Landmark;
 use Doctrine\Common\Collections\ArrayCollection;
 use Facebook\WebDriver\Exception\NoSuchElementException;
-use Facebook\WebDriver\Exception\TimeOutException;
+use Facebook\WebDriver\Exception\TimeoutException;
 use InvalidArgumentException;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -53,7 +53,7 @@ class CourseCrawler implements LoggerAwareInterface
      * @param Course $course
      *
      * @throws NoSuchElementException
-     * @throws TimeOutException
+     * @throws TimeoutException
      */
     private function extractName(Crawler $crawler, Course $course): void
     {
