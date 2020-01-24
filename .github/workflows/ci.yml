@@ -75,3 +75,5 @@ jobs:
           bin/phpstan.phar analyse src/
 
       - run: vendor/bin/behat --format progress
+
+      - run: bin/phpunit
