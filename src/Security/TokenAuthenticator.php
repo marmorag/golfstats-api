@@ -5,7 +5,9 @@ namespace App\Security;
 use App\Controller\AbstractApiController;
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Service\TokenEncoderService;
 use Doctrine\ORM\EntityManagerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,14 +16,17 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
-    private UserRepository $userRepository;
+    private TokenEncoderService $encoder;
+    private SerializerInterface $serializer;
 
-    public function __construct(UserRepository $repository)
+    public function __construct(SerializerInterface $serializer, TokenEncoderService $encoder)
     {
-        $this->userRepository = $repository;
+        $this->encoder = $encoder;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -54,9 +59,11 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
             $token = null;
         }
         // What you return here will be passed to getUser() as $credentials
-        return array(
-            'token' => $token,
-        );
+        try {
+            return $this->encoder->decode($token);
+        } catch (JWTDecodeFailureException $e) {
+            throw new \UnexpectedValueException($e->getMessage());
+        }
     }
 
     /**
@@ -64,13 +71,20 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $apiToken = $credentials['token'];
+        $userClaim = $credentials->getClaim('user');
 
-        if ($apiToken === null) {
-            return null;
+        if ($userClaim === null) {
+            throw new AuthenticationException('Invalid token : unable to retrieve user claim in given token');
         }
 
-        return $this->userRepository->findOneBy(['apiToken' => $apiToken]);
+        /** @var User $user */
+        $user = $this->serializer->deserialize($userClaim, User::class, 'json');
+
+        if ($user === null) {
+            throw new AuthenticationException('Invalid token : the given user does not exists.');
+        }
+
+        return $user;
     }
 
     /**
