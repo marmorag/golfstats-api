@@ -1,20 +1,18 @@
 <?php
 
-namespace App\Serializer;
+namespace App\Serializer\Denormalizer;
 
 use App\Entity\Contact;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
-class ContactNormalizer implements DenormalizerInterface
+class ContactDenormalizer implements DenormalizerInterface
 {
 
-    /**
-     * @param array<string, string> $data
-     * @param string $class
-     * @param string|null $format
-     * @param array<mixed> $context
-     * @return Contact
-     */
+    public function supportsDenormalization($data, $type, $format = null): bool
+    {
+        return $type === Contact::class && $format === 'json';
+    }
+
     public function denormalize($data, $class, $format = null, array $context = []): Contact
     {
         $contact = new Contact();
@@ -26,13 +24,5 @@ class ContactNormalizer implements DenormalizerInterface
         $contact->setTelephoneNumber($data['telephoneNumber']);
 
         return $contact;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function supportsDenormalization($data, $type, $format = null): bool
-    {
-        return $type === Contact::class && $format === 'json';
     }
 }
