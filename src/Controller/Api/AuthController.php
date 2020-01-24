@@ -5,6 +5,8 @@ namespace App\Controller\Api;
 use App\Controller\AbstractApiController;
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Service\TokenEncoderService;
+use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -12,6 +14,8 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
  * Class AuthController
@@ -36,10 +40,14 @@ class AuthController extends AbstractApiController
      * @Route(path="/api/auth", name="api_authenticate", methods={"POST"})
      *
      * @param Request $request
+     * @param TokenEncoderService $encoderService
+     * @param NormalizerInterface $normalizer
      *
      * @return Response
+     * @throws ExceptionInterface
+     * @throws JWTEncodeFailureException
      */
-    public function authenticate(Request $request): Response
+    public function authenticate(Request $request, TokenEncoderService $encoderService, NormalizerInterface $normalizer): Response
     {
         $login = $request->request->get('login');
         $password = $request->request->get('password');
@@ -60,7 +68,7 @@ class AuthController extends AbstractApiController
 
         $data = [
             'data' => [
-                'token' => $user->getApiToken()
+                'token' => $encoderService->encode(['user' => $normalizer->normalize($user)]),
             ],
         ];
 
