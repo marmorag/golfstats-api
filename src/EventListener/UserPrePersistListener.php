@@ -10,17 +10,10 @@ use App\Service\ApiTokenGenerator;
 
 class UserPrePersistListener
 {
-    private ApiTokenGenerator $tokenGenerator;
-
-    public function __construct(ApiTokenGenerator $tokenGenerator)
-    {
-        $this->tokenGenerator = $tokenGenerator;
-    }
-
     public function prePersist(User $user): void
     {
         if ($user->getApiToken() === null) {
-            $user->setApiToken($this->tokenGenerator->generate());
+            $user->setApiToken(ApiTokenGenerator::generate());
         }
     }
 }

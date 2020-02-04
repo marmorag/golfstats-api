@@ -1,13 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Service;
 
 class ApiTokenGenerator
 {
-    private string $prefix = 'mygstatapi-token:';
-
-    public function generate() : string
+    public static function generate(): string
     {
-        return uniqid($this->prefix, true);
+        return sha1(sprintf('golfstats:%s:%s', uniqid('', true), random_bytes(15)));
     }
 }

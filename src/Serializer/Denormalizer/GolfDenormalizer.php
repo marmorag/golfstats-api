@@ -1,37 +1,24 @@
 <?php
 
-namespace App\Serializer;
+namespace App\Serializer\Denormalizer;
 
 use App\Entity\Contact;
 use App\Entity\Course;
 use App\Entity\Golf;
-use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
-class GolfNormalizer implements DenormalizerInterface, DenormalizerAwareInterface
+class GolfDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
 
-    /**
-     * {@inheritdoc}
-     */
     public function supportsDenormalization($data, $type, $format = null): bool
     {
         return $type === Golf::class && $format === 'json';
     }
 
-    /**
-     * @param array<string, mixed> $data
-     * @param string $class
-     * @param string|null $format
-     * @param array<mixed> $context
-     * @return Golf
-     *
-     * @throws ExceptionInterface
-     */
     public function denormalize($data, $class, $format = null, array $context = []): Golf
     {
         if ($format !== 'json') {

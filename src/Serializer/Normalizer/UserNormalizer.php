@@ -12,10 +12,6 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class UserNormalizer implements NormalizerInterface
 {
-
-    /**
-     * {@inheritDoc}
-     */
     public function normalize($user, $format = null, array $context = [])
     {
         return [
@@ -25,9 +21,6 @@ class UserNormalizer implements NormalizerInterface
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function supportsNormalization($data, $format = null): bool
     {
         return $data instanceof User;
