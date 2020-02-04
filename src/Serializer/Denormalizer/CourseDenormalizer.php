@@ -18,6 +18,14 @@ class CourseDenormalizer implements DenormalizerInterface, DenormalizerAwareInte
             && $format === 'json';
     }
 
+    /**
+     * @param mixed $data
+     * @param string $class
+     * @param string|null $format
+     * @param array<mixed> $context
+     * @return Course
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
     public function denormalize($data, $class, $format = null, array $context = []): Course
     {
         $course = new Course();

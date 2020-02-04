@@ -51,12 +51,12 @@ class TokenEncoderService implements JWTEncoderInterface
 
     /**
      * @param string $stringToken
-     * @return Token
+     * @return array<mixed>
      *
      * @throws JWTDecodeFailureException If an error occurred while trying to load the token
      *                                   (invalid signature, invalid crypto key, expired token...)
      */
-    public function decode($stringToken): Token
+    public function decode($stringToken): array
     {
         $token = $this->parser->parse($stringToken);
 
@@ -67,7 +67,8 @@ class TokenEncoderService implements JWTEncoderInterface
         if (!$token->validate($validationData)) {
             throw new JWTDecodeFailureException('Invalid token', 'unable to validate token');
         }
-
+        
+        /** @var array $token */
         return $token;
     }
 }

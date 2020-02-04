@@ -13,7 +13,14 @@ class HoleDenormalizer implements DenormalizerInterface
         return $type === Hole::class && in_array($format, ['json', 'application/json'], true);
     }
 
-    public function denormalize($data, $type, $format = null, array $context = [])
+    /**
+     * @param mixed $data
+     * @param string $type
+     * @param string|null $format
+     * @param array<mixed> $context
+     * @return Hole
+     */
+    public function denormalize($data, $type, $format = null, array $context = []): Hole
     {
         $hole = new Hole();
 

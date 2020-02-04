@@ -12,6 +12,13 @@ class ContactDenormalizer implements DenormalizerInterface
         return $type === Contact::class && $format === 'json';
     }
 
+    /**
+     * @param mixed $data
+     * @param string $class
+     * @param string|null $format
+     * @param array<mixed> $context
+     * @return Contact
+     */
     public function denormalize($data, $class, $format = null, array $context = []): Contact
     {
         $contact = new Contact();

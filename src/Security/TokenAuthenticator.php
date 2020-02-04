@@ -55,8 +55,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function getCredentials(Request $request)
     {
         if (!$token = $request->headers->get('X-AUTH-TOKEN')) {
-            // No token?
-            $token = null;
+            throw new AuthenticationException('Invalid token : missing X-AUTH-TOKEN header.');
         }
         // What you return here will be passed to getUser() as $credentials
         try {
@@ -77,7 +76,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
             throw new AuthenticationException('Invalid token : unable to retrieve user claim in given token');
         }
 
-        /** @var User $user */
+        /** @var User|null $user */
         $user = $this->serializer->deserialize($userClaim, User::class, 'json');
 
         if ($user === null) {
