@@ -25,6 +25,8 @@ class CourseCrawler implements LoggerAwareInterface
     }
 
     /**
+     * Crawl a crourse from the given url
+     *
      * @param string $url
      * @return Course
      *

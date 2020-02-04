@@ -83,6 +83,10 @@
       "bin/console doctrine:schema:drop --force --quiet --no-interaction",
       "bin/console doctrine:schema:update --force --quiet --no-interaction",
       "bin/console hautelook:fixtures:load --quiet --no-interaction"
+    ],
+    "tests": [
+      "vendor/bin/behat --format progress",
+      "bin/phpunit"
     ]
   },
   "conflict": {
