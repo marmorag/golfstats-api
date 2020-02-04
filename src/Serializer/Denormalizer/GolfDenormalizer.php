@@ -19,6 +19,14 @@ class GolfDenormalizer implements DenormalizerInterface, DenormalizerAwareInterf
         return $type === Golf::class && $format === 'json';
     }
 
+    /**
+     * @param mixed $data
+     * @param string $class
+     * @param string|null $format
+     * @param array<mixed> $context
+     * @return Golf
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
     public function denormalize($data, $class, $format = null, array $context = []): Golf
     {
         if ($format !== 'json') {

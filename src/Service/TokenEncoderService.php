@@ -51,7 +51,7 @@ class TokenEncoderService implements JWTEncoderInterface
 
     /**
      * @param string $stringToken
-     * @return array
+     * @return array<mixed>
      *
      * @throws JWTDecodeFailureException If an error occurred while trying to load the token
      *                                   (invalid signature, invalid crypto key, expired token...)

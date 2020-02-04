@@ -25,6 +25,13 @@ class UserDenormalizer implements DenormalizerInterface, LoggerAwareInterface
         'roles'
     ];
 
+    /**
+     * @param mixed $data
+     * @param string $type
+     * @param string|null $format
+     * @param array<mixed> $context
+     * @return User
+     */
     public function denormalize($data, $type, $format = null, array $context = []): User
     {
         if ($type !== User::class) {
@@ -53,6 +60,11 @@ class UserDenormalizer implements DenormalizerInterface, LoggerAwareInterface
         return $type === User::class;
     }
 
+    /**
+     * @param User $user
+     * @param string $key
+     * @param mixed $value
+     */
     private function useSetter(User $user, string $key, $value): void
     {
         $setter = 'set'.ucfirst($key);
@@ -67,7 +79,12 @@ class UserDenormalizer implements DenormalizerInterface, LoggerAwareInterface
         }
     }
 
-    private function useAdder(User $user, string $key, array $value)
+    /**
+     * @param User $user
+     * @param string $key
+     * @param array<mixed> $value
+     */
+    private function useAdder(User $user, string $key, array $value): void
     {
         $adder = 'add'.ucfirst($key);
         if (method_exists($user, $adder)) {

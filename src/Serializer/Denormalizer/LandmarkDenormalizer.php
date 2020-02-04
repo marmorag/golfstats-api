@@ -19,6 +19,14 @@ class LandmarkDenormalizer implements DenormalizerInterface, DenormalizerAwareIn
         return $type === Landmark::class && in_array($format, ['json', 'application/json'], true);
     }
 
+    /**
+     * @param mixed $data
+     * @param string $type
+     * @param string|null $format
+     * @param array<mixed> $context
+     * @return Landmark
+     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     */
     public function denormalize($data, $type, $format = null, array $context = []): Landmark
     {
         $landmark = new Landmark();
