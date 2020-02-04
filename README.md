@@ -1,6 +1,6 @@
 # api
 
-[![Build Status](https://travis-ci.com/GolfStats/api.svg?branch=develop)](https://travis-ci.com/GolfStats/api)
+![CI](https://github.com/marmorag/golfstats-api/workflows/CI/badge.svg)
 
 ---
 
