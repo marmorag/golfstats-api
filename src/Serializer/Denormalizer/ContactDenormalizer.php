@@ -7,7 +7,6 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 class ContactDenormalizer implements DenormalizerInterface
 {
-
     public function supportsDenormalization($data, $type, $format = null): bool
     {
         return $type === Contact::class && $format === 'json';

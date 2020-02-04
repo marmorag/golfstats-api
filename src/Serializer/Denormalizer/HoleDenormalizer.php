@@ -28,5 +28,4 @@ class HoleDenormalizer implements DenormalizerInterface
 
         return $hole;
     }
-
 }

@@ -12,7 +12,6 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class UserNormalizer implements NormalizerInterface
 {
-
     public function normalize($user, $format = null, array $context = [])
     {
         return [

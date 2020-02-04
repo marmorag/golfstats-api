@@ -44,5 +44,4 @@ class LandmarkDenormalizer implements DenormalizerInterface, DenormalizerAwareIn
 
         return $landmark;
     }
-
 }

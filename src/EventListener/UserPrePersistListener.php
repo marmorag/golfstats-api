@@ -10,7 +10,6 @@ use App\Service\ApiTokenGenerator;
 
 class UserPrePersistListener
 {
-
     public function prePersist(User $user): void
     {
         if ($user->getApiToken() === null) {
