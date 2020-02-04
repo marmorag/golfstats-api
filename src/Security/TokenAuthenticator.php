@@ -77,7 +77,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
             throw new AuthenticationException('Invalid token : unable to retrieve user claim in given token');
         }
 
-        /** @var User $user */
+        /** @var User|null $user */
         $user = $this->serializer->deserialize($userClaim, User::class, 'json');
 
         if ($user === null) {
