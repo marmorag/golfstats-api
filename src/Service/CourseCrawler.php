@@ -17,7 +17,7 @@ class CourseCrawler implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    private $client;
+    private Client $client;
 
     public function __construct()
     {
@@ -25,6 +25,8 @@ class CourseCrawler implements LoggerAwareInterface
     }
 
     /**
+     * Crawl a crourse from the given url
+     *
      * @param string $url
      * @return Course
      *
@@ -94,10 +96,10 @@ class CourseCrawler implements LoggerAwareInterface
 
             // Extract landmark metadata
             $landmark->setName($tee);
-            $landmark->setSlopeMen($localCrawler->filter('#slope-mess')->getText());
-            $landmark->setSlopeLady($localCrawler->filter('#slope-dame')->getText());
-            $landmark->setSssMen($localCrawler->filter('#sss-mess')->getText());
-            $landmark->setSssLady($localCrawler->filter('#sss-dame')->getText());
+            $landmark->setSlopeMen((float)$localCrawler->filter('#slope-mess')->getText());
+            $landmark->setSlopeLady((float)$localCrawler->filter('#slope-dame')->getText());
+            $landmark->setSssMen((float)$localCrawler->filter('#sss-mess')->getText());
+            $landmark->setSssLady((float)$localCrawler->filter('#sss-dame')->getText());
 
             // Extract holes metadata
             for ($i = 1; $i <= 18; $i++) {

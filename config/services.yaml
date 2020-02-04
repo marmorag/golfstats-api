@@ -4,6 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+  jwt_token_identifier: '%env(APP_SECRET)%'
 
 services:
     # default configuration for services in *this* file
@@ -34,3 +35,7 @@ services:
     App\EventListener\JsonRequestContentParserListener:
       tags:
         - { name: kernel.event_listener, event: kernel.request }
+
+    App\Service\TokenEncoderService:
+      arguments:
+        $tokenIdentifier: '%jwt_token_identifier%'

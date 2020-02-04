@@ -72,6 +72,8 @@ jobs:
 
       - run: |
           APP_ENV=dev php bin/console cache:clear # PHPStan need container from dev environment
-          bin/phpstan.phar analyse src/
+          bin/phpstan.phar analyse src/ --level 8
 
       - run: vendor/bin/behat --format progress
+
+      - run: bin/phpunit

@@ -19,85 +19,19 @@ abstract class AbstractApiController extends AbstractController
     public const STATUS_500 = 'The request was not completed due to an internal error on the server side.';
     public const STATUS_503 = 'An unknown error occured.';
 
-    private function buildResponse($statusCode, $transferData): JsonResponse
+    /**
+     * @param int $statusCode
+     * @param array<string, mixed>|null $transferData
+     * @return JsonResponse
+     */
+    protected function buildResponse(int $statusCode, array $transferData = null): JsonResponse
     {
-        $response = new JsonResponse();
-
-        $response->headers->set('Content-Type', 'application/json');
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        $response->setStatusCode($statusCode);
+        $response = new JsonResponse(null, $statusCode);
 
         if (isset($transferData)) {
-            $response->setContent(json_encode($transferData));
+            $response->setContent(json_encode($transferData, JSON_THROW_ON_ERROR, 512));
         }
 
         return $response;
-    }
-
-    /**
-     * Standard success return code
-     *
-     * @param mixed $data
-     * @return Response
-     */
-    public function successResponse($data = null): Response
-    {
-        $transferData = $data ?? array('message' => 'Empty message.');
-
-        return $this->buildResponse(Response::HTTP_OK, $transferData);
-    }
-
-    public function createdResponse($data = null): JsonResponse
-    {
-        $transferData = $data ?? array('message' => 'Empty message.');
-
-        return $this->buildResponse(Response::HTTP_CREATED, $transferData);
-    }
-
-    public function noContentResponse(): JsonResponse
-    {
-        return $this->buildResponse(Response::HTTP_NO_CONTENT, null);
-    }
-
-    public function invalidRequestResponse($message = null): JsonResponse
-    {
-        $testedMessage = $message ?? array('message' => self::STATUS_400);
-        return $this->buildResponse(Response::HTTP_BAD_REQUEST, $testedMessage);
-    }
-
-    public function unauthorizedReponse($message = null): JsonResponse
-    {
-        $testedMessage = $message ?? array('message' => self::STATUS_401);
-        return $this->buildResponse(Response::HTTP_UNAUTHORIZED, $testedMessage);
-    }
-
-    public function forbiddenResponse($message = null): JsonResponse
-    {
-        $testedMessage = $message ?? array('message' => self::STATUS_403);
-        return $this->buildResponse(Response::HTTP_FORBIDDEN, $testedMessage);
-    }
-
-    public function unknownRessourceResponse($message = null): JsonResponse
-    {
-        $testedMessage = $message ?? array('message' => self::STATUS_404);
-        return $this->buildResponse(Response::HTTP_NOT_FOUND, $testedMessage);
-    }
-
-    public function forbiddenMethodResponse($message = null): JsonResponse
-    {
-        $testedMessage = $message ?? array('message' => self::STATUS_405);
-        return $this->buildResponse(Response::HTTP_METHOD_NOT_ALLOWED, $testedMessage);
-    }
-
-    public function internalFailureResponse($message = null): JsonResponse
-    {
-        $testedMessage = $message ?? array('message' => self::STATUS_500);
-        return $this->buildResponse(Response::HTTP_INTERNAL_SERVER_ERROR, $testedMessage);
-    }
-
-    public function unknownErrorResponse($message = null): JsonResponse
-    {
-        $testedMessage = $message ?? array('message' => self::STATUS_503);
-        return $this->buildResponse(Response::HTTP_SERVICE_UNAVAILABLE, $testedMessage);
     }
 }
