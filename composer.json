@@ -22,7 +22,7 @@
     "symfony/orm-pack": "^1.0",
     "symfony/panther": "^0.5.2",
     "symfony/security-bundle": "^4.4",
-    "symfony/yaml": "^4.4"
+    "symfony/yaml": "^5.0"
   },
   "require-dev": {
     "behat/behat": "^3.5",
