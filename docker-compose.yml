@@ -1,0 +1,70 @@
+version: '3'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - 3000
+    depends_on:
+      - db
+      - cache
+    environment:
+      TYPEORM_HOST: db
+      REDIS_HOST: cache
+      TYPEORM_SYNCHRONIZE: 'true'
+      JWT_SECRET: 'Som€S€cr€t'
+      JWT_EXPIRE_SECONDS: 600
+    restart: unless-stopped
+    networks:
+      - nginx-proxy
+      - backend
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=nginx-proxy"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-insecure.rule=Host(`${APP_URI}`) || Host(`www.${APP_URI}`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-insecure.entrypoints=web"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-insecure.middlewares=${COMPOSE_PROJECT_NAME}-https-only,${COMPOSE_PROJECT_NAME}-limit,${COMPOSE_PROJECT_NAME}-ratelimit,${COMPOSE_PROJECT_NAME}-compress"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.rule=Host(`${APP_URI}`) || Host(`www.${APP_URI}`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.tls.certresolver=myhttpchallenge"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.middlewares=${COMPOSE_PROJECT_NAME}-https-only,${COMPOSE_PROJECT_NAME}-limit,${COMPOSE_PROJECT_NAME}-ratelimit,${COMPOSE_PROJECT_NAME}-retry,${COMPOSE_PROJECT_NAME}-error-check,${COMPOSE_PROJECT_NAME}-headers,${COMPOSE_PROJECT_NAME}-compress"
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-headers.headers.stsSeconds=63072000"
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-headers.headers.stsIncludeSubdomains=true"
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-headers.headers.stsPreload=true"
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-headers.headers.forceSTSHeader=true"
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-headers.headers.contentTypeNosniff=true"
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-headers.headers.sslRedirect=true"
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-headers.headers.referrerPolicy=same-origin"
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-headers.headers.frameDeny=true"
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-headers.headers.browserXssFilter=true"
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-compress.compress=true"
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-https-only.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-https-only.redirectscheme.permanent=true"
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-retry.retry.attempts=4"
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-error-check.circuitbreaker.expression=ResponseCodeRatio(500, 600, 0, 600) > 0.30 || NetworkErrorRatio() > 0.10"
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-limit.buffering.maxRequestBodyBytes=20000000" # 20 Mb
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-limit.buffering.memResponseBodyBytes=20000000" # 20 Mb
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-ratelimit.ratelimit.average=100"
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-ratelimit.ratelimit.burst=50"
+
+  db:
+    image: postgres:11-alpine
+    environment:
+      POSTGRES_USER: 'golfstats'
+      POSTGRES_PASSWORD: 'golfstats'
+      POSTGRES_DB: 'golfstats'
+    restart: unless-stopped
+    networks:
+      - backend
+
+  cache:
+    image: redis:alpine
+    restart: unless-stopped
+    networks:
+      - backend
+
+networks:
+  backend:
+  nginx-proxy:
+    external: true
