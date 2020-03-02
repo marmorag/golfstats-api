@@ -15,13 +15,8 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        api_auth:
-            pattern: ^/api/auth
-            stateless: true
-            anonymous: true
-
-        api_register:
-            pattern: ^/api/register
+        api_authless:
+            pattern: ^/api/(auth|register|docs)
             stateless: true
             anonymous: true
 
@@ -48,7 +43,5 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/api/auth, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/docs, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/(auth|register|docs), roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api, roles: ROLE_USER }

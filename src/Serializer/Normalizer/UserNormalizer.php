@@ -13,16 +13,18 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class UserNormalizer implements NormalizerInterface
 {
     /**
-     * @param mixed $user
+     * @param User $user
      * @param string|null $format
      * @param array<mixed> $context
-     * @return array<string, string>
+     * @return array<string, mixed>
      */
     public function normalize($user, $format = null, array $context = []): array
     {
         return [
             'id' => $user->getId(),
             'email' => $user->getEmail(),
+            'firstname' => $user->getFirstname(),
+            'lastname' => $user->getLastname(),
             'roles' => $user->getRoles()
         ];
     }

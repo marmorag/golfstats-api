@@ -22,6 +22,8 @@ class UserDenormalizer implements DenormalizerInterface, LoggerAwareInterface
     public const SUPPORTED_PROPERTY = [
         'id',
         'email',
+        'firstname',
+        'lastname',
         'roles'
     ];
 
