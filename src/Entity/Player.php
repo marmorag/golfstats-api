@@ -28,7 +28,7 @@ class Player extends User
      * @ORM\Column(type="float")
      * @Groups("player")
      */
-    private $index;
+    private float $index;
 
     /**
      * @var Scorecard[]|Collection

@@ -26,146 +26,97 @@ class Contact
 {
 
     /**
-     * @var integer
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
+    /**
+     * @ORM\Column(type="string")
+     * @Groups("contact")
+     */
+    private string $name;
+    /**
+     * @ORM\Column(type="string")
+     * @Groups("contact")
+     */
+    private string $address;
+    /**
+     * @ORM\Column(type="string")
+     * @Groups("contact")
+     */
+    private string $city;
+    /**
+     * @ORM\Column(type="string")
+     * @Groups("contact")
+     */
+    private string $postalCode;
+    /**
+     * @ORM\Column(type="string")
+     * @Groups("contact")
+     */
+    private string $telephoneNumber;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     * @Groups("contact")
-     */
-    private $name;
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     * @Groups("contact")
-     */
-    private $address;
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     * @Groups("contact")
-     */
-    private $city;
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     * @Groups("contact")
-     */
-    private $postalCode;
-    /**
-     * @var string
-     * @ORM\Column(type="string")
-     * @Groups("contact")
-     */
-    private $telephoneNumber;
-
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     * @return Contact
-     */
     public function setId(int $id): self
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param mixed $name
-     * @return Contact
-     */
-    public function setName($name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getAddress(): string
     {
         return $this->address;
     }
 
-    /**
-     * @param string $address
-     * @return Contact
-     */
     public function setAddress(string $address): self
     {
         $this->address = $address;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getCity(): string
     {
         return $this->city;
     }
 
-    /**
-     * @param string $city
-     * @return Contact
-     */
     public function setCity(string $city): self
     {
         $this->city = $city;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getPostalCode(): string
     {
         return $this->postalCode;
     }
 
-    /**
-     * @param string $postalCode
-     * @return Contact
-     */
     public function setPostalCode(string $postalCode): self
     {
         $this->postalCode = $postalCode;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTelephoneNumber(): string
     {
         return $this->telephoneNumber;
     }
 
-    /**
-     * @param string $telephoneNumber
-     * @return Contact
-     */
     public function setTelephoneNumber(string $telephoneNumber): self
     {
         $this->telephoneNumber = $telephoneNumber;
