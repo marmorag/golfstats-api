@@ -24,6 +24,8 @@ class UserDenormalizer implements DenormalizerInterface, LoggerAwareInterface
         'email',
         'firstname',
         'lastname',
+        'created',
+        'updated',
         'roles'
     ];
 
@@ -59,7 +61,7 @@ class UserDenormalizer implements DenormalizerInterface, LoggerAwareInterface
 
     public function supportsDenormalization($data, $type, $format = null): bool
     {
-        return $type === User::class;
+        return $type === User::class && in_array($format, ['token', null], true);
     }
 
     /**
@@ -72,7 +74,14 @@ class UserDenormalizer implements DenormalizerInterface, LoggerAwareInterface
         $setter = 'set'.ucfirst($key);
         if (method_exists($user, $setter)) {
             try {
-                $user->$setter($value);
+                $rClass = new \ReflectionClass(User::class);
+                $attributeProperty = $rClass->getProperty($key);
+
+                if ($attributeProperty->getType()->getName() === \DateTime::class) {
+                    $user->$setter(new \DateTime($value));
+                } else {
+                    $user->$setter($value);
+                }
             } catch (\Exception $exception) {
                 throw new UnexpectedValueException($exception->getMessage());
             }

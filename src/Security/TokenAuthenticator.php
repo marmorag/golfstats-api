@@ -4,9 +4,8 @@ namespace App\Security;
 
 use App\Controller\AbstractApiController;
 use App\Entity\User;
-use App\Repository\UserRepository;
 use App\Service\TokenEncoderService;
-use Doctrine\ORM\EntityManagerInterface;
+use Lcobucci\JWT\Token;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,22 +15,20 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
-use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
     private TokenEncoderService $encoder;
-    private SerializerInterface $serializer;
+    private DenormalizerInterface $denormalizer;
 
-    public function __construct(SerializerInterface $serializer, TokenEncoderService $encoder)
+    public function __construct(DenormalizerInterface $denormalizer, TokenEncoderService $encoder)
     {
         $this->encoder = $encoder;
-        $this->serializer = $serializer;
+        $this->denormalizer = $denormalizer;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function start(Request $request, AuthenticationException $authException = null)
     {
         $data = [
@@ -41,18 +38,12 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supports(Request $request): bool
     {
         return $request->headers->has('X-AUTH-TOKEN');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCredentials(Request $request)
+    public function getCredentials(Request $request): Token
     {
         if (!$token = $request->headers->get('X-AUTH-TOKEN')) {
             throw new AuthenticationException('Invalid token : missing X-AUTH-TOKEN header.');
@@ -66,9 +57,13 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     }
 
     /**
-     * {@inheritdoc}
+     * @param Token $credentials
+     * @param UserProviderInterface $userProvider
+     *
+     * @return User|null
+     * @throws ExceptionInterface
      */
-    public function getUser($credentials, UserProviderInterface $userProvider)
+    public function getUser($credentials, UserProviderInterface $userProvider): ?User
     {
         $userClaim = $credentials->getClaim('user');
 
@@ -77,7 +72,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         }
 
         /** @var User|null $user */
-        $user = $this->serializer->deserialize($userClaim, User::class, 'json');
+        $user = $this->denormalizer->denormalize($userClaim, User::class, 'token');
 
         if ($user === null) {
             throw new AuthenticationException('Invalid token : the given user does not exists.');
@@ -86,17 +81,11 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         return $user;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function checkCredentials($credentials, UserInterface $user): bool
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         $data = [
@@ -106,17 +95,11 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         return new JsonResponse($data, Response::HTTP_FORBIDDEN);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): ?Response
     {
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supportsRememberMe(): bool
     {
         return false;

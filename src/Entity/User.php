@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -16,7 +17,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *          "post"={"access_control"="is_granted('ROLE_ADMIN')"}
  *     },
  *     itemOperations={
- *          "get"={"access_control"="is_granted('IS_FULLY_AUTHENTICATED')"},
+ *          "get"={"security"="is_granted('ROLE_USER')"},
  *          "put"={"access_control"="is_granted('ROLE_ADMIN')"},
  *          "delete"={"access_control"="is_granted('ROLE_ADMIN')"},
  *     },
@@ -25,6 +26,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * )
  * @UniqueEntity("email")
  * @UniqueEntity("apiToken")
+ * @ORM\HasLifecycleCallbacks()
  */
 class User implements UserInterface
 {
@@ -35,6 +37,16 @@ class User implements UserInterface
      * @ORM\Column(type="integer")
      */
     protected int $id;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    protected DateTime $created;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected ?DateTime $updated;
 
     /**
      * @ORM\Column(type="string")
@@ -66,6 +78,22 @@ class User implements UserInterface
      * @ORM\Column(type="json")
      */
     private array $roles = [];
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPrePersist(): void
+    {
+        $this->created = new DateTime('now');
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function onPreUpdate(): void
+    {
+        $this->updated = new DateTime('now');
+    }
 
     public function getId(): int
     {
@@ -133,13 +161,10 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @param array<string> $roles
-     * @return User
-     */
-    public function setRoles(array $roles): self
+    public function addRoles(string $role): self
     {
-        $this->roles = $roles;
+        $this->roles[] = $role;
+        $this->roles = array_unique($this->roles);
 
         return $this;
     }
@@ -177,5 +202,27 @@ class User implements UserInterface
      */
     public function eraseCredentials(): void
     {
+    }
+
+    public function getCreated(): DateTime
+    {
+        return $this->created;
+    }
+
+    public function setCreated(DateTime $created): self
+    {
+        $this->created = $created;
+        return $this;
+    }
+
+    public function getUpdated(): ?DateTime
+    {
+        return $this->updated;
+    }
+
+    public function setUpdated(?DateTime $updated): self
+    {
+        $this->updated = $updated;
+        return $this;
     }
 }

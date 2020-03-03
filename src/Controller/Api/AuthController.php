@@ -49,14 +49,14 @@ class AuthController extends AbstractApiController
      */
     public function authenticate(Request $request, TokenEncoderService $encoderService, NormalizerInterface $normalizer): Response
     {
-        $login = $request->request->get('login');
+        $username = $request->request->get('username');
         $password = $request->request->get('password');
 
-        if (!isset($login, $password)) {
+        if (!isset($username, $password)) {
             throw new BadRequestHttpException(static::AUTH_MISSING_KEY);
         }
 
-        $user = $this->repository->findOneBy(['email' => $login]);
+        $user = $this->repository->findOneBy(['email' => $username]);
 
         if (!isset($user) || !$user instanceof User) {
             throw new NotFoundHttpException(static::AUTH_NOT_FOUND_USER);

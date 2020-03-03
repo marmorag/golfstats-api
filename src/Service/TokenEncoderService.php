@@ -7,11 +7,10 @@ use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Token;
 use Lcobucci\JWT\ValidationData;
-use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException;
 
-class TokenEncoderService implements JWTEncoderInterface
+class TokenEncoderService
 {
     public const TOKEN_ISSUER = 'golfstats:api';
 
@@ -51,12 +50,12 @@ class TokenEncoderService implements JWTEncoderInterface
 
     /**
      * @param string $stringToken
-     * @return array<mixed>
+     * @return Token
      *
      * @throws JWTDecodeFailureException If an error occurred while trying to load the token
      *                                   (invalid signature, invalid crypto key, expired token...)
      */
-    public function decode($stringToken): array
+    public function decode($stringToken): Token
     {
         $token = $this->parser->parse($stringToken);
 
@@ -67,8 +66,7 @@ class TokenEncoderService implements JWTEncoderInterface
         if (!$token->validate($validationData)) {
             throw new JWTDecodeFailureException('Invalid token', 'unable to validate token');
         }
-        
-        /** @var array $token */
+
         return $token;
     }
 }

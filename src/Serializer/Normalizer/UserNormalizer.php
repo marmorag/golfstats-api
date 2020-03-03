@@ -25,6 +25,7 @@ class UserNormalizer implements NormalizerInterface
             'email' => $user->getEmail(),
             'firstname' => $user->getFirstname(),
             'lastname' => $user->getLastname(),
+            'created' => $user->getCreated()->format(\DateTime::ATOM),
             'roles' => $user->getRoles()
         ];
     }
