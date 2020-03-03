@@ -5,7 +5,7 @@ namespace App\Tests\phpunit\Controller\Api;
 
 class ValidationSchema
 {
-    public const TOKEN = [
+    public const JWT_TOKEN = [
         '$schema' => 'https://json-schema.org/draft-04/schema#',
         'type' => 'object',
         'properties' => [

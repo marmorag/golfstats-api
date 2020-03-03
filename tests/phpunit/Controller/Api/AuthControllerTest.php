@@ -26,12 +26,12 @@ class AuthControllerTest extends ApiTestCase
         // password
         $this->client->request('POST', '/api/auth', [
             'json' => [
-                'login' => 'guillaume.marmorat@gmail.com',
+                'username' => 'guillaume.marmorat@gmail.com',
                 'password' => 'password'
             ],
         ]);
 
         static::assertResponseStatusCodeSame(200);
-        static::assertMatchesJsonSchema(ValidationSchema::TOKEN);
+        static::assertMatchesJsonSchema(ValidationSchema::JWT_TOKEN);
     }
 }
